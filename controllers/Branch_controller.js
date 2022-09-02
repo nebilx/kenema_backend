@@ -9,7 +9,7 @@ const getAllBranch = asyncHandler(async (req, res) => {
   if (!branch) return res.status(204).json({ message: "No Branch found" });
 
   try {
-    res.json(branch);
+    res.status(200).json(branch);
   } catch (err) {
     res.status(500).send(err);
   }
@@ -38,6 +38,7 @@ const insertBranch = asyncHandler(async (req, res) => {
 
     res.status(201).json({ success: `New Branch created!` + result });
   } catch (err) {
+    res.status(500).send(err);
     console.error(err);
   }
 });
@@ -60,18 +61,14 @@ const updateBranch = asyncHandler(async (req, res) => {
 
   try {
     const result = await Branch.findByIdAndUpdate(
-      { _id: id },
-      {
-        $set: { name },
-        $set: { pno },
-        $set: { address },
-      }
+      { _id: id },{name,pno,address}
     );
 
     result.save();
 
-    res.json(result);
+    res.status(201).json({ success: `Branch Updated` + result });
   } catch (err) {
+    res.status(500).send(err);
     console.log(err);
   }
 });
@@ -92,8 +89,9 @@ const deleteBranch = asyncHandler(async (req, res) => {
 
   try {
     const result = await Branch.findByIdAndDelete({ _id: id });
-    res.json(result);
+    res.status(201).json({ success: `Branch Deleted!` + result });
   } catch (err) {
+    res.status(500).send(err);
     console.log(err);
   }
 });
@@ -109,7 +107,12 @@ const getBranch = asyncHandler(async (req, res) => {
   if (!branch) {
     return res.status(204).json({ message: `User ID ${id} not found` });
   }
-  res.json(branch);
+  try{
+  res.status(200).json(branch);
+  }catch(err){
+    res.status(500).send(err);
+    console.log(err);
+  }
 });
 
 module.exports = {

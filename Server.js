@@ -13,7 +13,11 @@ const { logger } = require("./middleware/logEvents");
 const errorHandler = require("./middleware/errorHandler");
 const cookieParser = require("cookie-parser");
 const credentials = require("./middleware/credentials");
-const branch = require("./routes/branch");
+const branch = require("./routes/Branch");
+const patient = require("./routes/Patient");
+const medicine = require("./routes/Medicine");
+const insurance = require("./routes/Insurance");
+const medicine_Batch = require("./routes/Medicine_Batch");
 const mongoose = require("mongoose");
 const connectDB = require("./config/db");
 const PORT = process.env.PORT || 3500;
@@ -43,6 +47,10 @@ app.use(cookieParser());
 
 //routes
 app.use("/branch", branch);
+app.use("/patient", patient);
+app.use("/medicine", medicine);
+app.use("/insurance", insurance);
+app.use("/medicine_Batch",medicine_Batch);
 
 app.all("*", (req, res) => {
   res.status(404);

@@ -6,7 +6,7 @@ const {
   updateBranch,
   deleteBranch,
   getBranch,
-} = require("../controllers/Branch_controller");
+} = require("../controllers/Branch_Controller");
 
 router
   .route("/")

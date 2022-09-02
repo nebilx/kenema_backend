@@ -13,3 +13,9 @@
 20220902	17:41:11	dbba2c53-00f7-4c5b-bc6c-bbbce87ec559	CastError: Cast to ObjectId failed for value "631213dda6e17adb456673ft" (type string) at path "_id" for model "Branch"
 20220902	17:42:01	4bcbb9ea-7db6-46bf-b0f3-2a6c2cc6e50b	CastError: Cast to ObjectId failed for value "631213dda6e17adb456673ft" (type string) at path "_id" for model "Branch"
 20220902	17:42:52	507ad44f-a005-4d03-8beb-b5cd0b09cfb4	CastError: Cast to ObjectId failed for value "{ _id: '631213dda6e17adb456673ft' }" (type Object) at path "_id" for model "Branch"
+20220903	00:14:05	3713faac-bed0-4fa6-976b-cb16bf6c9223	ReferenceError: id is not defined
+20220903	00:29:18	1a2fcff4-fd99-45c1-aeeb-df879eb7fd78	ReferenceError: Cannot access 'Insurance' before initialization
+20220903	00:31:06	9a3482b7-8947-4509-819e-043b9624a3f0	Error: Insurance already exists
+20220903	00:31:10	9f221dc6-1b81-4e8d-8363-40e5cc9685a1	Error: Insurance already exists
+20220903	00:43:04	d3b10f1d-33e9-4a1c-a8ba-8e81d0939258	ReferenceError: name is not defined
+20220903	00:43:50	2d1bcfbb-199f-4a4c-bf11-139dcb7a44a8	Error: Medicine_Batch already exists
