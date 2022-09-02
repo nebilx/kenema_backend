@@ -1,0 +1,15 @@
+20220902	17:29:01	592fb44a-e79c-47d8-9fc1-400dbc4f3263	ReferenceError: email is not defined
+20220902	17:30:19	4b50d83c-0e35-44da-a3eb-3726a9c23e4d	ReferenceError: email is not defined
+20220902	17:33:26	02ea926b-a017-491b-86b3-030c987a7b19	Error: Branch already exists
+20220902	17:34:52	f931cc35-27db-4762-bf03-3c91009f4131	SyntaxError: Unexpected string in JSON at position 39
+20220902	17:35:50	e573f5ad-1628-47a2-8bfd-ba65223531e8	SyntaxError: Unexpected string in JSON at position 37
+20220902	17:36:12	d8aec27d-f324-4f57-92f9-a3184964bbe2	SyntaxError: Unexpected string in JSON at position 37
+20220902	17:37:17	9fa3536f-63eb-47c4-a32b-d0f747fb0d52	SyntaxError: Unexpected string in JSON at position 35
+20220902	17:38:44	3b416720-3c67-4049-8934-d4dac571065e	SyntaxError: Unexpected string in JSON at position 34
+20220902	17:38:58	dd7b2776-0851-4798-aa8b-aae9af30ee77	SyntaxError: Unexpected string in JSON at position 34
+20220902	17:39:38	97c3dc0e-3400-4001-ba37-21a39e71525b	SyntaxError: Unexpected string in JSON at position 34
+20220902	17:40:30	709ce815-6fc1-4e50-8d8f-7e8f168c0411	CastError: Cast to ObjectId failed for value "631213dda6e17adb4" (type string) at path "_id" for model "Branch"
+20220902	17:40:45	9dfce221-77d5-4810-9b35-d2ab868d832b	CastError: Cast to ObjectId failed for value "631213dda6e17adb458" (type string) at path "_id" for model "Branch"
+20220902	17:41:11	dbba2c53-00f7-4c5b-bc6c-bbbce87ec559	CastError: Cast to ObjectId failed for value "631213dda6e17adb456673ft" (type string) at path "_id" for model "Branch"
+20220902	17:42:01	4bcbb9ea-7db6-46bf-b0f3-2a6c2cc6e50b	CastError: Cast to ObjectId failed for value "631213dda6e17adb456673ft" (type string) at path "_id" for model "Branch"
+20220902	17:42:52	507ad44f-a005-4d03-8beb-b5cd0b09cfb4	CastError: Cast to ObjectId failed for value "{ _id: '631213dda6e17adb456673ft' }" (type Object) at path "_id" for model "Branch"

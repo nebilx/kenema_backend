@@ -13,7 +13,7 @@ const { logger } = require("./middleware/logEvents");
 const errorHandler = require("./middleware/errorHandler");
 const cookieParser = require("cookie-parser");
 const credentials = require("./middleware/credentials");
-
+const branch = require("./routes/branch");
 const mongoose = require("mongoose");
 const connectDB = require("./config/db");
 const PORT = process.env.PORT || 3500;
@@ -42,6 +42,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 //routes
+app.use("/branch", branch);
 
 app.all("*", (req, res) => {
   res.status(404);
