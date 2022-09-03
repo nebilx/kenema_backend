@@ -21,16 +21,14 @@ const insertBranch = asyncHandler(async (req, res) => {
   const { name, pno, address } = req.body;
 
   if (!name || !pno || !address) {
-    res.status(400);
-    throw new Error("Please add all fields");
+    res.status(400).json({ message: "Please add all fields" });
   }
 
   // Check if Branch exists
   const BranchExists = await Branch.findOne({ name });
 
   if (BranchExists) {
-    res.status(409);
-    throw new Error("Branch already exists"); // 409 conflict
+    res.status(409).json({ message: "Branch already exists" }); // 409 conflict
   }
 
   try {
@@ -61,7 +59,8 @@ const updateBranch = asyncHandler(async (req, res) => {
 
   try {
     const result = await Branch.findByIdAndUpdate(
-      { _id: id },{name,pno,address}
+      { _id: id },
+      { name, pno, address }
     );
 
     result.save();
@@ -107,9 +106,9 @@ const getBranch = asyncHandler(async (req, res) => {
   if (!branch) {
     return res.status(204).json({ message: `User ID ${id} not found` });
   }
-  try{
-  res.status(200).json(branch);
-  }catch(err){
+  try {
+    res.status(200).json(branch);
+  } catch (err) {
     res.status(500).send(err);
     console.log(err);
   }

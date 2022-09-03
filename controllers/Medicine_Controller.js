@@ -9,34 +9,73 @@ const getAllMedicine = asyncHandler(async (req, res) => {
   if (!medicine) return res.status(204).json({ message: "No Medicine found" });
 
   try {
-    res.status(200).json(medicine);
+    return res.status(200).json(medicine);
   } catch (err) {
-    res.status(500).send(err);
+    return res.status(500).send(err);
   }
 });
 
 // @desc    Register new Medicine
 // @route   POST /route/Medicine
 const insertMedicine = asyncHandler(async (req, res) => {
-  const {medicine_id,name,type,mfg, generic_name,date_mfg,catagory,date_expire,price,strength,form,image} = req.body;
+  console.log("gebtual");
+  console.log(req.body);
+  const {
+    medicine_id,
+    name,
+    type,
+    mfg,
+    generic_name,
+    date_mfg,
+    category,
+    date_expire,
+    price,
+    strength,
+    form,
+    image,
+  } = req.body;
 
-  if (!medicine_id||!name||!type||!mfg||!generic_name||!date_mfg||!catagory||!date_expire||!price||!strength||!form||!image) {
-    res.status(400);
-    throw new Error("Please add all fields");
+  if (
+    !medicine_id ||
+    !name ||
+    !type ||
+    !mfg ||
+    !generic_name ||
+    !date_mfg ||
+    !category ||
+    !date_expire ||
+    !price ||
+    !strength ||
+    !form ||
+    !image
+  ) {
+    return res.status(400).json({ message: "Please add all fields" });
   }
 
   // Check if Medicine exists
-  const MedicineExists = await Medicine.findOne({medicine_id,date_mfg });
+  const MedicineExists = await Medicine.findOne({ medicine_id, date_mfg });
 
   if (MedicineExists) {
-    res.status(409);
-    throw new Error("Medicine already exists"); // 409 conflict
+    return res.status(409).json({ message: "Medicine already exists" }); // 409 conflict
   }
 
   try {
-    const result = await Medicine.create({  medicine_id,name,type,mfg, generic_name,date_mfg,catagory,date_expire,price,strength,form,image });
+    const result = await Medicine.create({
+      medicine_id,
+      name,
+      type,
+      mfg,
+      generic_name,
+      date_mfg,
+      category,
+      date_expire,
+      price,
+      strength,
+      form,
+      image,
+    });
 
-    res.status(201).json({ success: `New Medicine created!` + result });
+    return res.status(201).json({ success: `New Medicine created!` + result });
   } catch (err) {
     res.status(500).send(err);
     console.error(err);
@@ -46,7 +85,21 @@ const insertMedicine = asyncHandler(async (req, res) => {
 // @desc    Update Medicine
 // @route   Put /route/Medicine
 const updateMedicine = asyncHandler(async (req, res) => {
-    const { id, medicine_id,name,type,mfg, generic_name,date_mfg,catagory,date_expire,price,strength,form,image} = req.body;
+  const {
+    id,
+    medicine_id,
+    name,
+    type,
+    mfg,
+    generic_name,
+    date_mfg,
+    category,
+    date_expire,
+    price,
+    strength,
+    form,
+    image,
+  } = req.body;
 
   if (!id) return res.status(400).json({ message: "Medicine ID required" });
 
@@ -59,14 +112,28 @@ const updateMedicine = asyncHandler(async (req, res) => {
 
   try {
     const result = await Medicine.findByIdAndUpdate(
-      { _id: id },{  medicine_id,name,type,mfg, generic_name,date_mfg,catagory,date_expire,price,strength,form,image }
+      { _id: id },
+      {
+        medicine_id,
+        name,
+        type,
+        mfg,
+        generic_name,
+        date_mfg,
+        category,
+        date_expire,
+        price,
+        strength,
+        form,
+        image,
+      }
     );
 
-    result.save();
+    await result.save();
 
-    res.status(201).json({ success: `Medicine Updated` + result });
+    return res.status(201).json({ success: `Medicine Updated` + result });
   } catch (err) {
-    res.status(500).send(err);
+    return res.status(500).send(err);
     console.log(err);
   }
 });
@@ -105,9 +172,9 @@ const getMedicine = asyncHandler(async (req, res) => {
   if (!medicine) {
     return res.status(204).json({ message: `User ID ${id} not found` });
   }
-  try{
-  res.status(200).json(Medicine);
-  }catch(err){
+  try {
+    res.status(200).json(Medicine);
+  } catch (err) {
     res.status(500).send(err);
     console.log(err);
   }

@@ -18,23 +18,36 @@ const getAllPatient = asyncHandler(async (req, res) => {
 // @desc    Register new Patient
 // @route   POST /route/Patient
 const insertPatient = asyncHandler(async (req, res) => {
-  const { name,age,gender,dob,address,pno,image,user_name,user_pwd } = req.body;
+  console.log("gebtual");
 
-  if (!name||!age||!gender||!dob||!address||!pno||!image||!user_name||!user_pwd) {
-    res.status(400);
-    throw new Error("Please add all fields");
+  console.log(req.body);
+
+  const { name, age, gender, dob, address, pno, image, user_name, user_pwd } =
+    req.body;
+
+  if (!name || !age || !gender || !dob || !address || !pno || !image) {
+    res.status(400).json({ message: "Please add all fields" });
   }
 
   // Check if Patient exists
-  const PatientExists = await Patient.findOne({age,pno });
+  const PatientExists = await Patient.findOne({ age, pno });
 
   if (PatientExists) {
-    res.status(409);
-    throw new Error("Patient already exists"); // 409 conflict
+    res.status(409).json({ message: "Patient already exists" }); // 409 conflict
   }
 
   try {
-    const patient = await Patient.create({name,age,gender,dob,address,pno,image,user_name,user_pwd });
+    const patient = await Patient.create({
+      name,
+      age,
+      gender,
+      dob,
+      address,
+      pno,
+      image,
+      user_name,
+      user_pwd,
+    });
 
     res.status(201).json({ success: `New Patient created!` + patient });
   } catch (err) {
@@ -46,7 +59,18 @@ const insertPatient = asyncHandler(async (req, res) => {
 // @desc    Update Patient
 // @route   Put /route/Patient
 const updatePatient = asyncHandler(async (req, res) => {
-    const {id,name,age,gender,dob,address,pno,image,user_name,user_pwd } = req.body;
+  const {
+    id,
+    name,
+    age,
+    gender,
+    dob,
+    address,
+    pno,
+    image,
+    user_name,
+    user_pwd,
+  } = req.body;
 
   if (!id) return res.status(400).json({ message: "Patient ID required" });
 
@@ -59,7 +83,8 @@ const updatePatient = asyncHandler(async (req, res) => {
 
   try {
     const patient = await Patient.findByIdAndUpdate(
-      { _id: id },{name,age,gender,dob,address,pno,image,user_name,user_pwd }
+      { _id: id },
+      { name, age, gender, dob, address, pno, image, user_name, user_pwd }
     );
 
     patient.save();
@@ -105,9 +130,9 @@ const getPatient = asyncHandler(async (req, res) => {
   if (!patient) {
     return res.status(204).json({ message: `User ID ${id} not found` });
   }
-  try{
-  res.status(200).json(Patient);
-  }catch(err){
+  try {
+    res.status(200).json(Patient);
+  } catch (err) {
     res.status(500).send(err);
     console.log(err);
   }

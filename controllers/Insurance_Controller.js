@@ -6,7 +6,8 @@ const asyncHandler = require("express-async-handler");
 const getAllInsurance = asyncHandler(async (req, res) => {
   // Check if Insurance exists
   const insurance = await Insurance.find();
-  if (!insurance) return res.status(204).json({ message: "No Insurance found" });
+  if (!insurance)
+    return res.status(204).json({ message: "No Insurance found" });
 
   try {
     res.status(200).json(insurance);
@@ -19,22 +20,27 @@ const getAllInsurance = asyncHandler(async (req, res) => {
 // @route   POST /route/Insurance
 const insertInsurance = asyncHandler(async (req, res) => {
   const { Insurance_id, Insurance_name, Insurance_image } = req.body;
-  
-  if (!Insurance_id, !Insurance_name,  !Insurance_image) {
-    res.status(400);
-    throw new Error("Please add all fields");
+
+  if ((!Insurance_id, !Insurance_name, !Insurance_image)) {
+    res.status(400).json({ message: "Please add all fields" });
   }
 
   // Check if Insurance exists
-  const InsuranceExists = await Insurance.findOne({ Insurance_id, Insurance_name });
+  const InsuranceExists = await Insurance.findOne({
+    Insurance_id,
+    Insurance_name,
+  });
 
   if (InsuranceExists) {
-    res.status(409);
-    throw new Error("Insurance already exists"); // 409 conflict
+    res.status(409).json({ message: "Insurance already exists" }); // 409 conflict
   }
 
   try {
-    const insurance = await Insurance.create({ Insurance_id, Insurance_name, Insurance_image });
+    const insurance = await Insurance.create({
+      Insurance_id,
+      Insurance_name,
+      Insurance_image,
+    });
 
     res.status(201).json({ success: `New Insurance created!` + insurance });
   } catch (err) {
@@ -61,7 +67,8 @@ const updateInsurance = asyncHandler(async (req, res) => {
 
   try {
     const insurance = await Insurance.findByIdAndUpdate(
-      { _id: id },{Insurance_id, Insurance_name, Insurance_image}
+      { _id: id },
+      { Insurance_id, Insurance_name, Insurance_image }
     );
 
     insurance.save();
@@ -107,9 +114,9 @@ const getInsurance = asyncHandler(async (req, res) => {
   if (!insurance) {
     return res.status(204).json({ message: `User ID ${id} not found` });
   }
-  try{
-  res.status(200).json(insurance);
-  }catch(err){
+  try {
+    res.status(200).json(insurance);
+  } catch (err) {
     res.status(500).send(err);
     console.log(err);
   }

@@ -19,3 +19,33 @@
 20220903	00:31:10	9f221dc6-1b81-4e8d-8363-40e5cc9685a1	Error: Insurance already exists
 20220903	00:43:04	d3b10f1d-33e9-4a1c-a8ba-8e81d0939258	ReferenceError: name is not defined
 20220903	00:43:50	2d1bcfbb-199f-4a4c-bf11-139dcb7a44a8	Error: Medicine_Batch already exists
+20220903	11:39:12	7c6f748e-1ea6-44ae-b921-f469bc238951	Error: Please add all fields
+20220903	11:39:26	66e11be1-3a9e-47e1-b3f5-e44437ee7c89	Error: Please add all fields
+20220903	11:40:20	733e4953-7cb7-4a83-83ed-aea78c600641	Error: Please add all fields
+20220903	11:41:09	cb887fb1-1142-43fc-b27f-cda0889be7e6	Error: Branch already exists
+20220903	11:59:34	a37be31f-c185-42e5-bf72-50b9b2f6dcf9	Error: Please add all fields
+20220903	12:03:03	5aba5c55-a7af-4852-aaf4-8323d1fe8b3b	Error: Please add all fields
+20220903	12:04:00	f36683c0-0137-4289-8e54-ec7de7fddb4c	Error: Please add all fields
+20220903	12:05:53	626b69c2-6edc-4e68-b2e8-74e04b780932	Error: Please add all fields
+20220903	12:08:28	4aca9b93-e5c2-4b16-98d7-bd9e93b04cbe	Error: Cannot set headers after they are sent to the client
+20220903	12:09:23	d469a3ff-359e-4f39-8f17-4d3b88d7a421	Error: Cannot set headers after they are sent to the client
+20220903	12:45:14	aa9d04d1-ef88-472c-a16c-47c51dfe123f	Error: Please add all fields
+20220903	12:48:04	c69f0ee1-e029-405d-9e6f-385176b76037	Error: Please add all fields
+20220903	12:51:37	5066971b-3223-42fd-83bd-b9b30de0f981	Error: Please add all fields
+20220903	12:52:39	ef4480b1-8509-4267-b2ad-23cafe20651e	Error: Please add all fields
+20220903	12:56:52	d56339c8-858e-49d4-b2de-ba837552c54e	Error: Please add all fields
+20220903	12:57:51	9a94448b-caeb-434f-be45-01e16350463d	Error: Please add all fields
+20220903	14:01:32	490c8e17-3a0c-4a63-a68f-92eb256c7666	Error: Please add all fields
+20220903	14:03:21	5409b597-282e-48f9-aedb-da7839de1dfc	Error: Please add all fields
+20220903	14:07:57	c0458f66-8e74-4d7d-abed-f8cb04e5f9df	Error: Please add all fields
+20220903	14:09:10	9daa3d51-7531-41f4-85ca-a0c6b7308b2c	Error: Please add all fields
+20220903	14:11:00	8b9e81ca-41eb-4093-a541-46c5c043a033	Error: Please add all fields
+20220903	14:22:52	9c9348d5-fdab-46a8-9960-381d19a2a017	Error: Cannot set headers after they are sent to the client
+20220903	14:25:17	b6d854fb-6dd0-48ec-9398-65ae26977ed6	Error: Cannot set headers after they are sent to the client
+20220903	15:00:24	4e6550e8-34ee-4eb9-a1e7-4664305ccacd	Error: Cannot set headers after they are sent to the client
+20220903	15:03:11	131d4cbd-1b15-40b1-b257-38a8e6923974	Error: Cannot set headers after they are sent to the client
+20220903	15:06:06	7108df9c-daff-4952-9997-783ec22027b6	Error: Cannot set headers after they are sent to the client
+20220903	15:06:34	8f031438-1141-4af9-ae66-eef95e8bdcf2	Error: Cannot set headers after they are sent to the client
+20220903	15:40:51	f9d256fa-74ad-42c4-8ff5-8fba6615707a	Error: Cannot set headers after they are sent to the client
+20220903	15:42:27	fab77410-f2b9-4c1f-903d-2916656a0741	Error: Cannot set headers after they are sent to the client
+20220903	16:11:49	5515084d-ec11-407e-812e-757b3ca26eeb	Error: Cannot set headers after they are sent to the client

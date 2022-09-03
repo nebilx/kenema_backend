@@ -11,6 +11,7 @@ const cors = require("cors");
 const corsOptions = require("./config/corsOptions");
 const { logger } = require("./middleware/logEvents");
 const errorHandler = require("./middleware/errorHandler");
+const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const credentials = require("./middleware/credentials");
 const branch = require("./routes/Branch");
@@ -36,11 +37,11 @@ app.use(credentials);
 // Cross Origin Resource Sharing
 app.use(cors(corsOptions));
 
-// built-in middleware to handle urlencoded form data
-app.use(express.urlencoded({ extended: false }));
-
 // built-in middleware for json
 app.use(express.json());
+
+// built-in middleware to handle urlencoded form data
+app.use(express.urlencoded({ extended: true }));
 
 //middleware for cookies
 app.use(cookieParser());
@@ -50,7 +51,7 @@ app.use("/branch", branch);
 app.use("/patient", patient);
 app.use("/medicine", medicine);
 app.use("/insurance", insurance);
-app.use("/medicine_Batch",medicine_Batch);
+app.use("/medicine_Batch", medicine_Batch);
 
 app.all("*", (req, res) => {
   res.status(404);
