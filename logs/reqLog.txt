@@ -186,3 +186,15 @@
 20220903	16:34:23	3fdd388c-8cb4-47d3-9b37-f42d67995b51	POST	http://localhost:3000	/medicine
 20220903	16:37:29	e823d245-3049-4dff-997d-eb1f05bcd9b2	OPTIONS	http://localhost:3000	/medicine
 20220903	16:37:29	130143e2-f170-4ecc-81ad-7c0c31705f5a	POST	http://localhost:3000	/medicine
+20220904	21:29:30	6aeb5577-205c-4b60-9a44-98f42021ea59	GET	undefined	/medicine_Batch
+20220904	21:29:41	3d6f8203-180d-4346-8fd8-2617e41a80ee	GET	undefined	/insurance
+20220904	21:32:29	12dc88c0-e579-4fa9-95c4-fbbaf90a7a6c	GET	undefined	/medicine
+20220904	21:32:39	22bf4006-b158-43e2-a56d-84f8ed5aaf0f	GET	undefined	/patient
+20220904	21:40:01	1d8ee1ee-3849-4587-a04e-ad4f89841b76	OPTIONS	http://localhost:3000	/medicine
+20220904	21:40:01	a3990e19-7005-409f-a10e-fa3b86c914d0	POST	http://localhost:3000	/medicine
+20220904	21:46:41	d5cd1dc3-21cc-4bfa-ba13-42724b12a449	OPTIONS	http://localhost:3000	/medicine
+20220904	21:46:41	c580ea02-33a5-43c2-8913-db361bc67d77	POST	http://localhost:3000	/medicine
+20220904	21:48:00	69a99b17-348b-4de3-abd2-239e5474c9b7	OPTIONS	http://localhost:3000	/medicine
+20220904	21:48:00	dcf472cc-204e-4fb7-8210-a6d769f72793	POST	http://localhost:3000	/medicine
+20220904	21:48:59	56138cae-b5f1-4dbf-803e-0d61340f7b43	OPTIONS	http://localhost:3000	/patient
+20220904	21:48:59	5c2a98ac-02b2-47d5-a9f9-5a7511e1ae8b	POST	http://localhost:3000	/patient

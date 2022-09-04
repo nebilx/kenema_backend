@@ -17,11 +17,7 @@ const getAllPatient = asyncHandler(async (req, res) => {
 
 // @desc    Register new Patient
 // @route   POST /route/Patient
-const insertPatient = asyncHandler(async (req, res) => {
-  console.log("gebtual");
-
-  console.log(req.body);
-
+const insertPatient = asyncHandler(async (req, res) => { 
   const { name, age, gender, dob, address, pno, image, user_name, user_pwd } =
     req.body;
 

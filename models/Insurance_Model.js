@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const InsuranceSchema = new Schema({
  
      //Insurance id
-     Insurance_id: {
+  Insurance_id: {
     type: String,
     required: [true, "Insurance id is required"],
   },

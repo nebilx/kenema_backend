@@ -62,10 +62,10 @@ const MedicineSchema = new Schema({
     required: [true, "Medicine strenght is required"],
   },
 
-  //Medicine form
-  form: {
+  //Medicine dosag
+  Dose: {
     type: String,
-    required: [true, "Medicine form is required"],
+    required: [true, "Medicine dose is required"],
   },
 
   //Medicine image

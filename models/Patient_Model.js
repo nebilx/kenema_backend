@@ -7,8 +7,47 @@ const PatientUserSchema = new Schema({
     },
     user_pwd: {
      type:String,
+    },
+    status:{
+      type:String
     }
  });
+
+const PatientInsuranceSchema = new Schema ({
+       //Insurance id
+       Insurance_id: {
+        type: String,
+        required: [true, "Insurance id is required"],
+      },
+    
+       //Insurance name
+       Insurance_name: {
+        type: String,
+        required: [true, "Insurance name is required"],
+      },
+      
+      //Insurance age
+      Insurance_image: {
+        type: String,
+        required: [true, "Insurance age is required"],
+      },
+})
+ 
+
+ const PatientAddressSchema = new Schema({
+  city : {
+   type: String,
+  },
+  sub_city : {
+    type: String,
+   },
+   woreda : {
+    type: String,
+   },
+   house_no :{
+    type: String,
+   }
+});
 
 const PatientSchema = new Schema({
   //patient name
@@ -31,11 +70,7 @@ const PatientSchema = new Schema({
     type: String,
     required: [true, "patient dob is required"],
   },
-  //patient address
-  address: {
-    type: String,
-    required: [true, "patient address is required"],
-  },
+
    //patient phone number
    pno: {
     type: Number,
@@ -47,9 +82,16 @@ const PatientSchema = new Schema({
     required: [true, "patient image is required"],
   },
 
-  Patient: [PatientUserSchema],
+// patient address
+PatientAddress:[PatientAddressSchema],
+//patient user
+  PatientUser: [PatientUserSchema],
+  // patient insurance
+  PatientInsurance:[PatientInsuranceSchema],
+
 
 });
+
 
 
 

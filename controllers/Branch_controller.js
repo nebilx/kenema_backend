@@ -18,7 +18,7 @@ const getAllBranch = asyncHandler(async (req, res) => {
 // @desc    Register new Branch
 // @route   POST /route/branch
 const insertBranch = asyncHandler(async (req, res) => {
-  const { name, pno, address } = req.body;
+  const { name, pno, address, status } = req.body;
 
   if (!name || !pno || !address) {
     res.status(400).json({ message: "Please add all fields" });
@@ -32,7 +32,7 @@ const insertBranch = asyncHandler(async (req, res) => {
   }
 
   try {
-    const result = await Branch.create({ name, pno, address });
+    const result = await Branch.create({ name, pno, address, status });
 
     res.status(201).json({ success: `New Branch created!` + result });
   } catch (err) {
@@ -45,7 +45,7 @@ const insertBranch = asyncHandler(async (req, res) => {
 // @route   Put /route/branch
 const updateBranch = asyncHandler(async (req, res) => {
   console.log(req.body);
-  const { id, name, pno, address } = req.body;
+  const { id, name, pno, address,status } = req.body;
 
   if (!id) return res.status(400).json({ message: "Branch ID required" });
 
@@ -60,7 +60,7 @@ const updateBranch = asyncHandler(async (req, res) => {
   try {
     const result = await Branch.findByIdAndUpdate(
       { _id: id },
-      { name, pno, address }
+      { name, pno, address, status }
     );
 
     result.save();

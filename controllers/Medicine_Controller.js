@@ -18,8 +18,7 @@ const getAllMedicine = asyncHandler(async (req, res) => {
 // @desc    Register new Medicine
 // @route   POST /route/Medicine
 const insertMedicine = asyncHandler(async (req, res) => {
-  console.log("gebtual");
-  console.log(req.body);
+
   const {
     medicine_id,
     name,

@@ -4,21 +4,25 @@ require("dotenv").config();
 // create express server allows us to set up middleware to respond to HTTP Requests.
 const express = require("express");
 const app = express();
-
+const  fileupload = require("express-fileupload");
 //Cross-Origin Resource Sharing that help us d/f port requests to communicate
 const cors = require("cors");
 
 const corsOptions = require("./config/corsOptions");
 const { logger } = require("./middleware/logEvents");
 const errorHandler = require("./middleware/errorHandler");
-const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const credentials = require("./middleware/credentials");
+
 const branch = require("./routes/Branch");
 const patient = require("./routes/Patient");
 const medicine = require("./routes/Medicine");
-const insurance = require("./routes/Insurance");
 const medicine_Batch = require("./routes/Medicine_Batch");
+
+const unit = require("./routes/Unit");
+const type = require("./routes/Type");
+const dosage = require("./routes/Dosage");
+
 const mongoose = require("mongoose");
 const connectDB = require("./config/db");
 const PORT = process.env.PORT || 3500;
@@ -39,7 +43,7 @@ app.use(cors(corsOptions));
 
 // built-in middleware for json
 app.use(express.json());
-
+app.use(fileupload());
 // built-in middleware to handle urlencoded form data
 app.use(express.urlencoded({ extended: true }));
 
@@ -47,6 +51,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 //routes
+app.use("/unit", unit);
+app.use("/type", type);
+app.use("/dosage", dosage);
 app.use("/branch", branch);
 app.use("/patient", patient);
 app.use("/medicine", medicine);
