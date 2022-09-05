@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const DosageSchema = new Schema({
-  // type drug name
-  type_name: {
+const PackageSchema = new Schema({
+  // package name
+  package_name: {
     type: String,
-    required: [true, "drug type name is required"],
+    required: [true, "name package is required"],
   },
 
   //Status active or inactive
@@ -15,4 +15,5 @@ const DosageSchema = new Schema({
   },
 });
 
-module.exports = mongoose.models.Type || mongoose.model("Type", DosageSchema);
+module.exports =
+  mongoose.models.Package || mongoose.model("Package", PackageSchema);

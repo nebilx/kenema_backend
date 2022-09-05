@@ -4,7 +4,7 @@ require("dotenv").config();
 // create express server allows us to set up middleware to respond to HTTP Requests.
 const express = require("express");
 const app = express();
-const  fileupload = require("express-fileupload");
+const fileupload = require("express-fileupload");
 //Cross-Origin Resource Sharing that help us d/f port requests to communicate
 const cors = require("cors");
 
@@ -14,11 +14,12 @@ const errorHandler = require("./middleware/errorHandler");
 const cookieParser = require("cookie-parser");
 const credentials = require("./middleware/credentials");
 
+const medcontent = require("./routes/medcontent");
 const branch = require("./routes/Branch");
 const patient = require("./routes/Patient");
 const medicine = require("./routes/Medicine");
 const medicine_Batch = require("./routes/Medicine_Batch");
-
+const package = require("./routes/Package");
 const unit = require("./routes/Unit");
 const type = require("./routes/Type");
 const dosage = require("./routes/Dosage");
@@ -52,12 +53,13 @@ app.use(cookieParser());
 
 //routes
 app.use("/unit", unit);
+app.use("/package", package);
+app.use("/medcontent", medcontent);
 app.use("/type", type);
 app.use("/dosage", dosage);
 app.use("/branch", branch);
 app.use("/patient", patient);
 app.use("/medicine", medicine);
-app.use("/insurance", insurance);
 app.use("/medicine_Batch", medicine_Batch);
 
 app.all("*", (req, res) => {

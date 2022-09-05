@@ -18,7 +18,6 @@ const getAllMedicine = asyncHandler(async (req, res) => {
 // @desc    Register new Medicine
 // @route   POST /route/Medicine
 const insertMedicine = asyncHandler(async (req, res) => {
-
   const {
     medicine_id,
     name,
@@ -26,12 +25,14 @@ const insertMedicine = asyncHandler(async (req, res) => {
     mfg,
     generic_name,
     date_mfg,
-    category,
+    dosage,
     date_expire,
     price,
     strength,
-    form,
+    unit,
+    package,
     image,
+    status,
   } = req.body;
 
   if (
@@ -41,12 +42,14 @@ const insertMedicine = asyncHandler(async (req, res) => {
     !mfg ||
     !generic_name ||
     !date_mfg ||
-    !category ||
+    !dosage ||
     !date_expire ||
     !price ||
     !strength ||
-    !form ||
-    !image
+    !unit ||
+    !package ||
+    !image ||
+    !status
   ) {
     return res.status(400).json({ message: "Please add all fields" });
   }
@@ -66,18 +69,19 @@ const insertMedicine = asyncHandler(async (req, res) => {
       mfg,
       generic_name,
       date_mfg,
-      category,
+      dosage,
       date_expire,
       price,
       strength,
-      form,
+      unit,
+      package,
       image,
+      status,
     });
 
     return res.status(201).json({ success: `New Medicine created!` + result });
   } catch (err) {
-    res.status(500).send(err);
-    console.error(err);
+    return res.status(500).send(err);
   }
 });
 
@@ -92,12 +96,14 @@ const updateMedicine = asyncHandler(async (req, res) => {
     mfg,
     generic_name,
     date_mfg,
-    category,
+    dosage,
     date_expire,
     price,
     strength,
-    form,
+    unit,
+    package,
     image,
+    status,
   } = req.body;
 
   if (!id) return res.status(400).json({ message: "Medicine ID required" });
@@ -119,12 +125,14 @@ const updateMedicine = asyncHandler(async (req, res) => {
         mfg,
         generic_name,
         date_mfg,
-        category,
+        dosage,
         date_expire,
         price,
         strength,
-        form,
+        unit,
+        package,
         image,
+        status,
       }
     );
 
@@ -133,7 +141,6 @@ const updateMedicine = asyncHandler(async (req, res) => {
     return res.status(201).json({ success: `Medicine Updated` + result });
   } catch (err) {
     return res.status(500).send(err);
-    console.log(err);
   }
 });
 
@@ -153,10 +160,9 @@ const deleteMedicine = asyncHandler(async (req, res) => {
 
   try {
     const result = await Medicine.findByIdAndDelete({ _id: id });
-    res.status(201).json({ success: `Medicine Deleted!` + result });
+    return res.status(201).json({ success: `Medicine Deleted!` + result });
   } catch (err) {
-    res.status(500).send(err);
-    console.log(err);
+    return res.status(500).send(err);
   }
 });
 
@@ -172,10 +178,9 @@ const getMedicine = asyncHandler(async (req, res) => {
     return res.status(204).json({ message: `User ID ${id} not found` });
   }
   try {
-    res.status(200).json(Medicine);
+    return res.status(200).json(Medicine);
   } catch (err) {
-    res.status(500).send(err);
-    console.log(err);
+    return res.status(500).send(err);
   }
 });
 

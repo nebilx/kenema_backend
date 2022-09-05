@@ -9,42 +9,41 @@ const getAllDosage = asyncHandler(async (req, res) => {
   if (!dosage) return res.status(204).json({ message: "No Dosage found" });
 
   try {
-    res.status(200).json(dosage);
+    return res.status(200).json(dosage);
   } catch (err) {
-    res.status(500).send(err);
+    return res.status(500).send(err);
   }
 });
 
 // @desc    Register new Dosage
 // @route   POST /route/Dosage
 const insertDosage = asyncHandler(async (req, res) => {
-  const { Dosage_name,status } = req.body;
+  const { dosage_name, status } = req.body;
 
-  if (!Dosage_name||!status) {
-    res.status(400).json({ message: "Please add all fields" });
+  if (!dosage_name || !status) {
+    return res.status(400).json({ message: "Please add all fields" });
   }
 
   // Check if Dosage exists
-  const DosageExists = await Dosage.findOne({ Dosage_name });
+  const DosageExists = await Dosage.findOne({ dosage_name });
 
   if (DosageExists) {
-    res.status(409).json({ message: "Dosage already exists" }); // 409 conflict
+    return res.status(409).json({ message: "Dosage already exists" }); // 409 conflict
   }
 
   try {
-    const result = await Dosage.create({Dosage_name,status });
+    const result = await Dosage.create({ dosage_name, status });
 
-    res.status(201).json({ success: `New Dosage created!` + result });
+    return res.status(201).json({ success: `New Dosage created!` + result });
   } catch (err) {
-    res.status(500).send(err);
-    console.error(err);
+    return res.status(500).send(err);
   }
 });
 
 // @desc    Update Dosage
 // @route   Put /route/Dosage
 const updateDosage = asyncHandler(async (req, res) => {
-  const { Dosage_name,status} = req.body;
+  const { id, dosage_name, status } = req.body;
 
   if (!id) return res.status(400).json({ message: "Dosage ID required" });
 
@@ -59,15 +58,14 @@ const updateDosage = asyncHandler(async (req, res) => {
   try {
     const result = await Dosage.findByIdAndUpdate(
       { _id: id },
-      { Dosage_name,status }
+      { dosage_name, status }
     );
 
     result.save();
 
-    res.status(201).json({ success: `Dosage Updated` + result });
+    return res.status(201).json({ success: `Dosage Updated` + result });
   } catch (err) {
-    res.status(500).send(err);
-    console.log(err);
+    return res.status(500).send(err);
   }
 });
 
@@ -87,10 +85,9 @@ const deleteDosage = asyncHandler(async (req, res) => {
 
   try {
     const result = await Dosage.findByIdAndDelete({ _id: id });
-    res.status(201).json({ success: `Dosage Deleted!` + result });
+    return res.status(201).json({ success: `Dosage Deleted!` + result });
   } catch (err) {
-    res.status(500).send(err);
-    console.log(err);
+    return res.status(500).send(err);
   }
 });
 
@@ -106,10 +103,9 @@ const getDosage = asyncHandler(async (req, res) => {
     return res.status(204).json({ message: `User ID ${id} not found` });
   }
   try {
-    res.status(200).json(dosage);
+    return res.status(200).json(dosage);
   } catch (err) {
-    res.status(500).send(err);
-    console.log(err);
+    return res.status(500).send(err);
   }
 });
 

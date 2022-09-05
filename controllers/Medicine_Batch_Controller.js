@@ -10,27 +10,27 @@ const getAllMedicine_Batch = asyncHandler(async (req, res) => {
     return res.status(204).json({ message: "No Medicine_Batch found" });
 
   try {
-    res.status(200).json(medicine_Batch);
+    return res.status(200).json(medicine_Batch);
   } catch (err) {
-    res.status(500).send(err);
+    return res.status(500).send(err);
   }
 });
 
 // @desc    Register new Medicine_Batch
 // @route   POST /route/Medicine_Batch
 const insertMedicine_Batch = asyncHandler(async (req, res) => {
+  console.log(req.body);
   const { drug_expire, drug_quantity } = req.body;
 
-  console.log("dersul");
   if (!drug_expire || !drug_quantity) {
-    res.status(400).json({ message: "Please add all fields" });
+    return res.status(400).json({ message: "Please add all fields" });
   }
 
   // Check if Medicine_Batch exists
   const Medicine_BatchExists = await Medicine_Batch.findOne({ drug_expire });
 
-  if (Medicine_BatchExists) {
-    res.status(409).json({ message: "Medicine_Batch already exists" }); // 409 conflict
+  if (!Medicine_BatchExists) {
+    return res.status(409).json({ message: "Medicine Batch already exists" }); // 409 conflict
   }
 
   try {
@@ -39,12 +39,11 @@ const insertMedicine_Batch = asyncHandler(async (req, res) => {
       drug_quantity,
     });
 
-    res
+    return res
       .status(201)
       .json({ success: `New Medicine_Batch created!` + medicine_Batch });
   } catch (err) {
-    res.status(500).send(err);
-    console.error(err);
+    return res.status(500).send(err);
   }
 });
 
@@ -75,12 +74,11 @@ const updateMedicine_Batch = asyncHandler(async (req, res) => {
 
     medicine_Batch.save();
 
-    res
+    return res
       .status(201)
       .json({ success: `Medicine_Batch Updated` + medicine_Batch });
   } catch (err) {
-    res.status(500).send(err);
-    console.log(err);
+    return res.status(500).send(err);
   }
 });
 
@@ -103,12 +101,11 @@ const deleteMedicine_Batch = asyncHandler(async (req, res) => {
 
   try {
     const medicine_Batch = await Medicine_Batch.findByIdAndDelete({ _id: id });
-    res
+    return res
       .status(201)
       .json({ success: `Medicine_Batch Deleted!` + medicine_Batch });
   } catch (err) {
-    res.status(500).send(err);
-    console.log(err);
+    return res.status(500).send(err);
   }
 });
 
@@ -125,10 +122,9 @@ const getMedicine_Batch = asyncHandler(async (req, res) => {
     return res.status(204).json({ message: `User ID ${id} not found` });
   }
   try {
-    res.status(200).json(medicine_Batch);
+    return res.status(200).json(medicine_Batch);
   } catch (err) {
-    res.status(500).send(err);
-    console.log(err);
+    return res.status(500).send(err);
   }
 });
 

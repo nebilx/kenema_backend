@@ -20,28 +20,28 @@ const MedicineSchema = new Schema({
     required: [true, "Medicine type is required"],
   },
 
-  //Medicine manufature
+  //Medicine manufacture
   mfg: {
     type: String,
-    required: [true, "Medicine manufature is required"],
+    required: [true, "Medicine manufacture is required"],
   },
 
   //Medicine generic name
   generic_name: {
     type: String,
-    required: [true, "Medicine genric_name is required"],
+    required: [true, "Medicine generic_name is required"],
   },
 
-  //Medicine date manufature
+  //Medicine date manufacture
   date_mfg: {
     type: String,
-    required: [true, "Medicine date is required"],
+    required: [true, "Medicine manufacture date is required"],
   },
 
-  //Medicine catagory
-  category: {
+  //Medicine dosage
+  dosage: {
     type: String,
-    required: [true, "Medicine catagory is required"],
+    required: [true, "Medicine dosage is required"],
   },
 
   //Medicine date expire
@@ -59,19 +59,30 @@ const MedicineSchema = new Schema({
   //Medicine strength
   strength: {
     type: String,
-    required: [true, "Medicine strenght is required"],
+    required: [true, "Medicine strength is required"],
   },
 
-  //Medicine dosag
-  Dose: {
+  //Medicine unit
+  unit: {
     type: String,
-    required: [true, "Medicine dose is required"],
+    required: [true, "Medicine unit is required"],
+  },
+
+  //medicine package
+  package: {
+    type: String,
+    required: [true, "Medicine packaging is required"],
   },
 
   //Medicine image
   image: {
     type: String,
     required: [true, "Medicine image is required"],
+  },
+
+  status: {
+    type: String,
+    required: [true, "status is required"],
   },
 });
 

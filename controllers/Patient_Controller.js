@@ -9,27 +9,62 @@ const getAllPatient = asyncHandler(async (req, res) => {
   if (!patient) return res.status(204).json({ message: "No Patient found" });
 
   try {
-    res.status(200).json(patient);
+    return res.status(200).json(patient);
   } catch (err) {
-    res.status(500).send(err);
+    return res.status(500).send(err);
   }
 });
 
 // @desc    Register new Patient
 // @route   POST /route/Patient
-const insertPatient = asyncHandler(async (req, res) => { 
-  const { name, age, gender, dob, address, pno, image, user_name, user_pwd } =
-    req.body;
+const insertPatient = asyncHandler(async (req, res) => {
+  console.log(req.body);
 
-  if (!name || !age || !gender || !dob || !address || !pno || !image) {
-    res.status(400).json({ message: "Please add all fields" });
+  const {
+    name,
+    age,
+    gender,
+    dob,
+    pno,
+    image,
+    city,
+    sub_city,
+    woreda,
+    house_no,
+    insurance_id,
+    insurance_name,
+    insurance_image,
+    uname,
+    upwd,
+    status,
+  } = req.body;
+
+  if (
+    !name ||
+    !age ||
+    !gender ||
+    !dob ||
+    !pno ||
+    !image ||
+    !city ||
+    !sub_city ||
+    !woreda ||
+    !house_no ||
+    !insurance_id ||
+    !insurance_name ||
+    !insurance_image ||
+    !uname ||
+    !upwd ||
+    !status
+  ) {
+    return res.status(400).json({ message: "Please add all fields" });
   }
 
   // Check if Patient exists
-  const PatientExists = await Patient.findOne({ age, pno });
+  const PatientExists = await Patient.findOne({ pno });
 
   if (PatientExists) {
-    res.status(409).json({ message: "Patient already exists" }); // 409 conflict
+    return res.status(409).json({ message: "Patient already exists" }); // 409 conflict
   }
 
   try {
@@ -38,17 +73,30 @@ const insertPatient = asyncHandler(async (req, res) => {
       age,
       gender,
       dob,
-      address,
       pno,
       image,
-      user_name,
-      user_pwd,
+      address: {
+        city,
+        sub_city,
+        woreda,
+        house_no,
+      },
+
+      insurance: {
+        insurance_id,
+        insurance_name,
+        insurance_image,
+      },
+      user: {
+        user_name: uname,
+        user_pwd: upwd,
+        status,
+      },
     });
 
-    res.status(201).json({ success: `New Patient created!` + patient });
+    return res.status(201).json({ success: `New Patient created!` + patient });
   } catch (err) {
-    res.status(500).send(err);
-    console.error(err);
+    return res.status(500).send(err);
   }
 });
 
@@ -61,11 +109,18 @@ const updatePatient = asyncHandler(async (req, res) => {
     age,
     gender,
     dob,
-    address,
     pno,
     image,
-    user_name,
-    user_pwd,
+    city,
+    sub_city,
+    woreda,
+    house_no,
+    insurance_id,
+    insurance_name,
+    insurance_image,
+    uname,
+    upwd,
+    status,
   } = req.body;
 
   if (!id) return res.status(400).json({ message: "Patient ID required" });
@@ -80,15 +135,38 @@ const updatePatient = asyncHandler(async (req, res) => {
   try {
     const patient = await Patient.findByIdAndUpdate(
       { _id: id },
-      { name, age, gender, dob, address, pno, image, user_name, user_pwd }
+      {
+        name,
+        age,
+        gender,
+        dob,
+        pno,
+        image,
+        address: {
+          city,
+          sub_city,
+          woreda,
+          house_no,
+        },
+
+        insurance: {
+          insurance_id,
+          insurance_name,
+          insurance_image,
+        },
+        user: {
+          user_name: uname,
+          user_pwd: upwd,
+          status,
+        },
+      }
     );
 
     patient.save();
 
-    res.status(201).json({ success: `Patient Updated` + patient });
+    return res.status(201).json({ success: `Patient Updated` + patient });
   } catch (err) {
-    res.status(500).send(err);
-    console.log(err);
+    return res.status(500).send(err);
   }
 });
 
@@ -108,10 +186,9 @@ const deletePatient = asyncHandler(async (req, res) => {
 
   try {
     const patient = await Patient.findByIdAndDelete({ _id: id });
-    res.status(201).json({ success: `Patient Deleted!` + patient });
+    return res.status(201).json({ success: `Patient Deleted!` + patient });
   } catch (err) {
-    res.status(500).send(err);
-    console.log(err);
+    return res.status(500).send(err);
   }
 });
 
@@ -127,10 +204,9 @@ const getPatient = asyncHandler(async (req, res) => {
     return res.status(204).json({ message: `User ID ${id} not found` });
   }
   try {
-    res.status(200).json(Patient);
+    return res.status(200).json(Patient);
   } catch (err) {
-    res.status(500).send(err);
-    console.log(err);
+    return res.status(500).send(err);
   }
 });
 

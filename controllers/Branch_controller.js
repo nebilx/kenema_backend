@@ -9,9 +9,9 @@ const getAllBranch = asyncHandler(async (req, res) => {
   if (!branch) return res.status(204).json({ message: "No Branch found" });
 
   try {
-    res.status(200).json(branch);
+    return res.status(200).json(branch);
   } catch (err) {
-    res.status(500).send(err);
+    return res.status(500).send(err);
   }
 });
 
@@ -20,24 +20,22 @@ const getAllBranch = asyncHandler(async (req, res) => {
 const insertBranch = asyncHandler(async (req, res) => {
   const { name, pno, address, status } = req.body;
 
-  if (!name || !pno || !address) {
-    res.status(400).json({ message: "Please add all fields" });
+  if (!name || !pno || !address || !status) {
+    return res.status(400).json({ message: "Please add all fields" });
   }
 
   // Check if Branch exists
   const BranchExists = await Branch.findOne({ name });
 
   if (BranchExists) {
-    res.status(409).json({ message: "Branch already exists" }); // 409 conflict
+    return res.status(409).json({ message: "Branch already exists" }); // 409 conflict
   }
 
   try {
     const result = await Branch.create({ name, pno, address, status });
-
-    res.status(201).json({ success: `New Branch created!` + result });
+    return res.status(201).json({ success: `New Branch created!` + result });
   } catch (err) {
-    res.status(500).send(err);
-    console.error(err);
+    return res.status(500).send(err);
   }
 });
 
@@ -45,7 +43,7 @@ const insertBranch = asyncHandler(async (req, res) => {
 // @route   Put /route/branch
 const updateBranch = asyncHandler(async (req, res) => {
   console.log(req.body);
-  const { id, name, pno, address,status } = req.body;
+  const { id, name, pno, address, status } = req.body;
 
   if (!id) return res.status(400).json({ message: "Branch ID required" });
 
@@ -65,10 +63,9 @@ const updateBranch = asyncHandler(async (req, res) => {
 
     result.save();
 
-    res.status(201).json({ success: `Branch Updated` + result });
+    return res.status(201).json({ success: `Branch Updated` + result });
   } catch (err) {
-    res.status(500).send(err);
-    console.log(err);
+    return res.status(500).send(err);
   }
 });
 
@@ -88,10 +85,9 @@ const deleteBranch = asyncHandler(async (req, res) => {
 
   try {
     const result = await Branch.findByIdAndDelete({ _id: id });
-    res.status(201).json({ success: `Branch Deleted!` + result });
+    return res.status(201).json({ success: `Branch Deleted!` + result });
   } catch (err) {
-    res.status(500).send(err);
-    console.log(err);
+    return res.status(500).send(err);
   }
 });
 
@@ -101,16 +97,15 @@ const getBranch = asyncHandler(async (req, res) => {
   const { id } = req.body;
   if (!id) return res.status(400).json({ message: "Branch ID required" });
 
-  const result = await Branch.findOne({ _id: id }).exec();
+  const branch = await Branch.findOne({ _id: id }).exec();
 
   if (!branch) {
     return res.status(204).json({ message: `User ID ${id} not found` });
   }
   try {
-    res.status(200).json(branch);
+    return res.status(200).json(branch);
   } catch (err) {
-    res.status(500).send(err);
-    console.log(err);
+    return res.status(500).send(err);
   }
 });
 
