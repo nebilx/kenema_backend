@@ -63,3 +63,10 @@
 20220905	14:24:22	b4c63f8f-595f-463f-a4f8-8f2ec8b098b1	ReferenceError: id is not defined
 20220905	17:53:04	84d5857f-52bd-4da3-89ba-28d38fd503b6	ReferenceError: package_name is not defined
 20220905	17:53:05	cc76b1dc-5749-4a33-af10-1e9e9a31683e	ReferenceError: package_name is not defined
+20220906	11:36:00	f9688ee9-3c7a-47cd-bcc5-773c3b4ac2cb	TypeError: Cannot destructure property 'image' of 'req.body.files' as it is undefined.
+20220906	11:45:08	a30cb6ee-671e-4e27-921b-9acb4eda0d7e	TypeError: Cannot read properties of undefined (reading '0')
+20220906	11:45:58	2f3a7641-4782-4533-8c33-4cda36d57dcf	TypeError: Cannot destructure property 'image' of 'req.body.files' as it is undefined.
+20220906	12:08:41	697d682a-b296-4a40-8d64-b493d0f52bea	ReferenceError: image is not defined
+20220906	12:09:42	c3a2641c-9321-4f91-a838-469e457dae67	ReferenceError: image is not defined
+20220906	12:11:09	39941039-78e9-4e10-95cb-d4f9abd9c9f5	TypeError: Cannot destructure property 'image' of 'req.files' as it is null.
+20220906	12:12:57	1754521b-3a9b-492e-a7fb-ff5d42256be0	CastError: Cast to Number failed for value "op" (type string) at path "pno" for model "patient"

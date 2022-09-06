@@ -33,8 +33,14 @@ const PatientInsuranceSchema = new Schema({
 
   //Insurance age
   insurance_image: {
-    type: String,
-    required: [true, "Insurance image is required"],
+    public_id: {
+      type: String,
+      required: [true, "public id is required"],
+    },
+    url: {
+      type: String,
+      required: [true, "url is required"],
+    },
   },
 });
 
@@ -86,9 +92,15 @@ const PatientSchema = new Schema({
     required: [true, "patient phone number is required"],
   },
   //patient image
-  image: {
-    type: String,
-    required: [true, "patient image is required"],
+  p_image: {
+    public_id: {
+      type: String,
+      required: [true, "public id is required"],
+    },
+    url: {
+      type: String,
+      required: [true, "url is required"],
+    },
   },
 
   // patient address

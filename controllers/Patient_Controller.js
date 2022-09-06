@@ -1,5 +1,6 @@
 const Patient = require("../models/Patient_Model");
 const asyncHandler = require("express-async-handler");
+const cloudinary = require("../utils/cloudinary");
 
 // @desc    get all Patient
 // @route   Get /route/Patient
@@ -18,22 +19,21 @@ const getAllPatient = asyncHandler(async (req, res) => {
 // @desc    Register new Patient
 // @route   POST /route/Patient
 const insertPatient = asyncHandler(async (req, res) => {
-  console.log(req.body);
-
+  const { image, insurance_image } = req.files;
+  console.log(image, insurance_image);
+  console.log("........./////////..........");
   const {
     name,
     age,
     gender,
     dob,
     pno,
-    image,
     city,
     sub_city,
     woreda,
     house_no,
     insurance_id,
     insurance_name,
-    insurance_image,
     uname,
     upwd,
     status,
@@ -68,13 +68,38 @@ const insertPatient = asyncHandler(async (req, res) => {
   }
 
   try {
+    //Upload to cloudinary
+
+    const p_imageUploaded = await cloudinary.uploader.upload(image, {
+      folder: "Patient_image",
+      width: 150,
+      height: 300,
+      crop: "fill",
+    });
+
+    const i_imageUploaded = await cloudinary.uploader.upload(insurance_image, {
+      folder: "Insurance_image",
+      width: 150,
+      height: 300,
+      crop: "fill",
+    });
+
+    if (!p_imageUploaded || !i_imageUploaded) {
+      console.log("something went wrong");
+    }
+
+    console.log(p_imageUploaded, i_imageUploaded);
+
     const patient = await Patient.create({
       name,
       age,
       gender,
       dob,
       pno,
-      image,
+      p_image: {
+        public_id: p_imageUploaded.public_id,
+        url: p_imageUploaded.secure_url,
+      },
       address: {
         city,
         sub_city,
@@ -85,7 +110,10 @@ const insertPatient = asyncHandler(async (req, res) => {
       insurance: {
         insurance_id,
         insurance_name,
-        insurance_image,
+        insurance_image: {
+          public_id: i_imageUploaded.public_id,
+          url: i_imageUploaded.secure_url,
+        },
       },
       user: {
         user_name: uname,
