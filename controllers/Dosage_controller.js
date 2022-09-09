@@ -18,6 +18,7 @@ const getAllDosage = asyncHandler(async (req, res) => {
 // @desc    Register new Dosage
 // @route   POST /route/Dosage
 const insertDosage = asyncHandler(async (req, res) => {
+
   const { dosage_name, status } = req.body;
 
   if (!dosage_name || !status) {

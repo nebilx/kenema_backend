@@ -4,7 +4,6 @@ require("dotenv").config();
 // create express server allows us to set up middleware to respond to HTTP Requests.
 const express = require("express");
 const app = express();
-const fileupload = require("express-fileupload");
 //Cross-Origin Resource Sharing that help us d/f port requests to communicate
 const cors = require("cors");
 
@@ -17,8 +16,9 @@ const credentials = require("./middleware/credentials");
 const medcontent = require("./routes/medcontent");
 const branch = require("./routes/Branch");
 const patient = require("./routes/Patient");
+const pharmacist = require("./routes/Pharmacist");
 const medicine = require("./routes/Medicine");
-const medicine_Batch = require("./routes/Medicine_Batch");
+const Batch = require("./routes/Batch");
 const package = require("./routes/Package");
 const unit = require("./routes/Unit");
 const type = require("./routes/Type");
@@ -43,10 +43,9 @@ app.use(credentials);
 app.use(cors(corsOptions));
 
 // built-in middleware for json
-app.use(express.json());
-app.use(fileupload());
+app.use(express.json({limit: "50m"}));
 // built-in middleware to handle urlencoded form data
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({limit: "50mb", extended: false}));
 
 //middleware for cookies
 app.use(cookieParser());
@@ -58,9 +57,15 @@ app.use("/medcontent", medcontent);
 app.use("/type", type);
 app.use("/dosage", dosage);
 app.use("/branch", branch);
+app.use("/pharmacist",pharmacist);
 app.use("/patient", patient);
 app.use("/medicine", medicine);
-app.use("/medicine_Batch", medicine_Batch);
+app.use("/batch", Batch);
+
+app.use("/p", (req,res) => {
+  console.log('it here');
+  console.log(req.body);
+})
 
 app.all("*", (req, res) => {
   res.status(404);

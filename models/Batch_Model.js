@@ -27,4 +27,4 @@ const BatchSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model("Medicine_Batch", BatchSchema);
+module.exports = mongoose.model("Batch", BatchSchema);

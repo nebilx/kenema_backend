@@ -70,3 +70,32 @@
 20220906	12:09:42	c3a2641c-9321-4f91-a838-469e457dae67	ReferenceError: image is not defined
 20220906	12:11:09	39941039-78e9-4e10-95cb-d4f9abd9c9f5	TypeError: Cannot destructure property 'image' of 'req.files' as it is null.
 20220906	12:12:57	1754521b-3a9b-492e-a7fb-ff5d42256be0	CastError: Cast to Number failed for value "op" (type string) at path "pno" for model "patient"
+20220906	23:11:24	95967592-98be-440c-8642-3273ff5d8189	ReferenceError: pno is not defined
+20220907	11:24:02	58281775-8a87-4d17-8dc0-3fd2a3260ab7	Error: Unexpected end of form
+20220907	11:32:42	86889aa1-f932-4f03-a352-6d8021560f50	Error: Unexpected end of form
+20220907	12:01:13	427b2fa7-d351-4a81-8e80-0b645fbb7eaf	Error: Unexpected end of form
+20220907	12:02:49	d412a15b-eb53-4f5b-9b34-9d6856fe1091	Error: Unexpected end of form
+20220907	12:09:46	400ce239-6de5-40bf-bac3-cfb317abec7e	TypeError: Cannot destructure property 'image' of 'req.files' as it is undefined.
+20220907	12:18:15	f90d21c0-07b5-46c4-b535-c2938db84ff0	TypeError: Cannot destructure property 'image' of 'req.files' as it is undefined.
+20220907	12:21:41	53495e69-5ae0-422a-9ba2-3087e7f35343	ReferenceError: image is not defined
+20220907	12:39:41	96899ee8-84c3-45a9-b714-a5d863caef12	undefined: Unsupported file format
+20220907	12:57:24	95fa4864-93ee-43a4-a8db-a53e0602f9d0	Error: Please upload a valid image file
+20220907	12:58:38	6eded15a-66f3-44ea-9560-27c297ff0c53	Error: Please upload a valid image file
+20220907	18:57:52	43c8d24e-5c49-4bef-b802-7d2cfa3e07e9	Error: File type is not supported
+20220907	19:59:40	6f495907-b747-4bd4-83da-9f2f8dd23706	Error: Cannot set headers after they are sent to the client
+20220907	23:10:34	58209373-bb0d-40b6-bb6c-93aba5d85000	Error: Cannot set headers after they are sent to the client
+20220907	23:22:03	d05548ba-ea5a-4b44-97ed-07e70b5b8516	TypeError: Cannot read properties of undefined (reading 'path')
+20220907	23:22:46	53c71af7-a22c-46ab-97f6-b3a209454ebd	TypeError: Cannot read properties of undefined (reading 'path')
+20220908	08:00:07	e3d26678-9961-4a45-86f3-3ed8ab7e797d	ReferenceError: User is not defined
+20220908	08:13:16	fc2d372b-0f52-4adc-a837-20f67e20112b	CastError: Cast to ObjectId failed for value ":631904418491f4c0172a6666" (type string) at path "_id" for model "Pharmacist"
+20220908	08:28:23	a171db41-dce3-44a5-8415-043b5421d7d0	TypeError: Cannot read properties of undefined (reading 'path')
+20220908	08:33:01	c2409ca1-c365-4b9a-944c-c22073b5c4ac	TypeError: Cannot read properties of undefined (reading 'path')
+20220908	08:34:02	752c8b0a-108e-41f0-98aa-7d58d181bef1	TypeError: Cannot read properties of undefined (reading 'path')
+20220908	21:00:14	ed77f7b6-7d02-483a-89a1-673246273572	PayloadTooLargeError: request entity too large
+20220908	21:14:40	1271c40a-8cce-4a2b-b0e5-48fdfa83f47f	PayloadTooLargeError: request entity too large
+20220908	21:15:32	f3f7792f-b6eb-4dda-b7cd-b8b1013c9b98	PayloadTooLargeError: request entity too large
+20220909	10:12:17	41e43663-c168-4fd2-91f2-75928c0bc528	ReferenceError: re is not defined
+20220909	10:20:43	6c2003e5-bfd7-4432-a049-dfaf9c079781	Error: Multipart: Boundary not found
+20220909	10:23:20	3e2871e7-7c13-49f0-8e78-14023925b2ae	SyntaxError: Unexpected token " in JSON at position 0
+20220909	10:24:02	d51d88bd-b99b-4eaa-bc9f-de6297706523	SyntaxError: Unexpected token " in JSON at position 0
+20220909	10:28:58	83e9bb64-fab1-468a-b385-bf472520a3d5	Error: Multipart: Boundary not found
