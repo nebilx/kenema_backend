@@ -23,6 +23,7 @@ const package = require("./routes/Package");
 const unit = require("./routes/Unit");
 const type = require("./routes/Type");
 const dosage = require("./routes/Dosage");
+const prescription = require("./routes/Prescription");
 
 const mongoose = require("mongoose");
 const connectDB = require("./config/db");
@@ -43,9 +44,9 @@ app.use(credentials);
 app.use(cors(corsOptions));
 
 // built-in middleware for json
-app.use(express.json({limit: "50m"}));
+app.use(express.json());
 // built-in middleware to handle urlencoded form data
-app.use(express.urlencoded({limit: "50mb", extended: false}));
+app.use(express.urlencoded({extended: false}));
 
 //middleware for cookies
 app.use(cookieParser());
@@ -61,11 +62,8 @@ app.use("/pharmacist",pharmacist);
 app.use("/patient", patient);
 app.use("/medicine", medicine);
 app.use("/batch", Batch);
+app.use("/prescription",prescription);
 
-app.use("/p", (req,res) => {
-  console.log('it here');
-  console.log(req.body);
-})
 
 app.all("*", (req, res) => {
   res.status(404);

@@ -58,7 +58,12 @@ const updateBranch = asyncHandler(async (req, res) => {
   try {
     const result = await Branch.findByIdAndUpdate(
       { _id: id },
-      { name, pno, address, status }
+      {
+        $set: { name },
+        $set: { pno },
+        $set: { address },
+        $set: { status }
+      }
     );
 
     result.save();

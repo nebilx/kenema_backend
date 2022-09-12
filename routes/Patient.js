@@ -8,11 +8,21 @@ const {
   getPatient,
 } = require("../controllers/Patient_controller");
 
+const multer = require("../utils/multer");
+
 router
   .route("/")
   .get(getAllPatient)
-  .post(insertPatient)
-  .put(updatePatient)
+  .post(multer.fields([{
+    name: 'p_image', maxCount: 1
+  }, {
+    name: 'insurance_image', maxCount: 1
+  }]),insertPatient)
+  .put(multer.fields([{
+    name: 'p_image', maxCount: 1
+  }, {
+    name: 'insurance_image', maxCount: 1
+  }]),updatePatient)
   .delete(deletePatient);
 
 router.route("/:id").get(getPatient);

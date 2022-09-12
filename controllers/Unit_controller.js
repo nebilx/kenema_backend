@@ -57,7 +57,10 @@ const updateUnit = asyncHandler(async (req, res) => {
   try {
     const result = await Unit.findByIdAndUpdate(
       { _id: id },
-      { unit_name, status }
+      {
+        $set: { unit_name },
+        $set: { status }
+      }
     );
 
     result.save();

@@ -1,6 +1,7 @@
 const Patient = require("../models/Patient_Model");
 const asyncHandler = require("express-async-handler");
 const cloudinary = require("../utils/cloudinary");
+const { json } = require("body-parser");
 
 // @desc    get all Patient
 // @route   Get /route/Patient
@@ -19,8 +20,7 @@ const getAllPatient = asyncHandler(async (req, res) => {
 // @desc    Register new Patient
 // @route   POST /route/Patient
 const insertPatient = asyncHandler(async (req, res) => {
-  const { image, insurance_image } = req.files;
-  console.log(image, insurance_image);
+
   console.log("........./////////..........");
   const {
     name,
@@ -38,21 +38,27 @@ const insertPatient = asyncHandler(async (req, res) => {
     upwd,
     status,
   } = req.body;
+  console.log(req.body);
+  console.log(req.file);
 
+
+  console.log("...........////////////////......... p_image");
+  console.log(req.files.p_image[0]);
+  console.log(".............///////////////..... insurance_image");
+  console.log(req.files.insurance_image[0]);
+  console.log("/////////////////////////--------------");
   if (
     !name ||
     !age ||
     !gender ||
     !dob ||
     !pno ||
-    !image ||
     !city ||
     !sub_city ||
     !woreda ||
     !house_no ||
     !insurance_id ||
     !insurance_name ||
-    !insurance_image ||
     !uname ||
     !upwd ||
     !status
@@ -67,17 +73,20 @@ const insertPatient = asyncHandler(async (req, res) => {
     return res.status(409).json({ message: "Patient already exists" }); // 409 conflict
   }
 
+  console.log(PatientExists);
+  console.log("reach here");
+
   try {
     //Upload to cloudinary
 
-    const p_imageUploaded = await cloudinary.uploader.upload(image, {
+    const p_imageUploaded = await cloudinary.uploader.upload(req.files.p_image[0].path, {
       folder: "Patient_image",
       width: 150,
       height: 300,
       crop: "fill",
     });
 
-    const i_imageUploaded = await cloudinary.uploader.upload(insurance_image, {
+    const i_imageUploaded = await cloudinary.uploader.upload(req.files.insurance_image[0].path, {
       folder: "Insurance_image",
       width: 150,
       height: 300,
@@ -88,9 +97,11 @@ const insertPatient = asyncHandler(async (req, res) => {
       console.log("something went wrong");
     }
 
-    console.log(p_imageUploaded, i_imageUploaded);
+    console.log(p_imageUploaded);
+    console.log("//////////////....................");
+    console.log(i_imageUploaded);
 
-    const patient = await Patient.create({
+    const patient = new Patient({
       name,
       age,
       gender,
@@ -122,6 +133,8 @@ const insertPatient = asyncHandler(async (req, res) => {
       },
     });
 
+    await patient.save();
+
     return res.status(201).json({ success: `New Patient created!` + patient });
   } catch (err) {
     return res.status(500).send(err);
@@ -138,14 +151,12 @@ const updatePatient = asyncHandler(async (req, res) => {
     gender,
     dob,
     pno,
-    image,
     city,
     sub_city,
     woreda,
     house_no,
     insurance_id,
     insurance_name,
-    insurance_image,
     uname,
     upwd,
     status,
@@ -154,47 +165,128 @@ const updatePatient = asyncHandler(async (req, res) => {
   if (!id) return res.status(400).json({ message: "Patient ID required" });
 
   // check if Patient exists
-  const PatientExists = await Patient.findOne({ _id: id });
+  const patient = await Patient.findOne({ _id: id });
 
-  if (!PatientExists) {
+  console.log(patient);
+
+  if (!patient) {
     return res.status(204).json({ message: `Patient ID ${id} not found` });
   }
 
-  try {
-    const patient = await Patient.findByIdAndUpdate(
-      { _id: id },
-      {
-        name,
-        age,
-        gender,
-        dob,
-        pno,
-        image,
-        address: {
-          city,
-          sub_city,
-          woreda,
-          house_no,
-        },
+  if (!req.files.insurance_image || !req.files.p_image) {
+    console.log("no file exist");
 
-        insurance: {
-          insurance_id,
-          insurance_name,
-          insurance_image,
-        },
-        user: {
-          user_name: uname,
-          user_pwd: upwd,
-          status,
-        },
-      }
-    );
+    try {
+      const pupdate = await Patient.findOneAndUpdate(
+        { _id: id },
+        {
+          $set: { name },
+          $set: { age },
+          $set: { gender },
+          $set: { dob },
+          $set: { pno },
+          $set: {
+            address: {
+              city,
+              sub_city,
+              woreda,
+              house_no,
+            }
+          },
 
-    patient.save();
+          $set: {
+            insurance: {
+              insurance_id,
+              insurance_name
+            }
+          },
+          $set: {
+            user: {
+              user_name: uname,
+              user_pwd: upwd,
+              status,
+            }
+          },
+        });
 
-    return res.status(201).json({ success: `Patient Updated` + patient });
-  } catch (err) {
-    return res.status(500).send(err);
+      await pupdate.save();
+
+      return res.status(201).json({ success: `Patient Updated!` + pupdate });
+    } catch (err) {
+      return res.status(500).send(err);
+    }
+  }
+  else {
+
+    // Delete image from cloudinary
+    await cloudinary.uploader.destroy(patient.p_image.public_id);
+    await cloudinary.uploader.destroy(patient.insurance[0].insurance_image.public_id);
+
+
+    const p_imageUploaded = await cloudinary.uploader.upload(req.files.p_image[0].path, {
+      folder: "Patient_image",
+      width: 150,
+      height: 300,
+      crop: "fill",
+    });
+
+    const i_imageUploaded = await cloudinary.uploader.upload(req.files.insurance_image[0].path, {
+      folder: "Insurance_image",
+      width: 150,
+      height: 300,
+      crop: "fill",
+    });
+
+    try {
+      const pupdate = await Patient.findByIdAndUpdate(
+        { _id: id },
+        {
+
+          $set: { name },
+          $set: { age },
+          $set: { gender },
+          $set: { dob },
+          $set: { pno },
+          p_image: {
+            public_id: p_imageUploaded.public_id,
+            url: p_imageUploaded.secure_url,
+          },
+          $set: {
+            address: {
+              city,
+              sub_city,
+              woreda,
+              house_no,
+            }
+          },
+
+          $set: {
+            insurance: {
+              insurance_id,
+              insurance_name,
+              insurance_image: {
+                public_id: i_imageUploaded.public_id,
+                url: i_imageUploaded.secure_url,
+              },
+            }
+          },
+          $set: {
+            user: {
+              user_name: uname,
+              user_pwd: upwd,
+              status,
+            }
+
+          }
+        }
+      );
+
+      pupdate.save();
+
+      return res.status(201).json({ success: `Patient Updated` + pupdate });
+    } catch (err) {
+      return res.status(500).send(err);
+    }
   }
 });
 
@@ -202,19 +294,29 @@ const updatePatient = asyncHandler(async (req, res) => {
 // @route   Delete /route/Patient
 const deletePatient = asyncHandler(async (req, res) => {
   const { id } = req.body;
-
+  console.log(id);
   if (!id) return res.status(400).json({ message: "Patient ID required" });
 
-  //check if the Patient exist
-  const PatientExists = await Patient.findOne({ _id: id }).exec();
-
-  if (!PatientExists) {
-    return res.status(204).json({ message: `Patient ID ${id} not found` });
-  }
-
   try {
-    const patient = await Patient.findByIdAndDelete({ _id: id });
+    //check if the Patient exist
+    const patient = await Patient.findById({ _id: id });
+
+    console.log(JSON.parse(JSON.stringify(patient)));
+
+    if (!patient) {
+      return res.status(204).json({ message: `Patient ID ${id} not found` });
+    }
+
+
+    // Delete image from cloudinary
+    await cloudinary.uploader.destroy(patient.p_image.public_id);
+    await cloudinary.uploader.destroy(patient.insurance[0].insurance_image.public_id);
+
+    // Delete patient from db
+    await patient.remove();
+
     return res.status(201).json({ success: `Patient Deleted!` + patient });
+
   } catch (err) {
     return res.status(500).send(err);
   }
@@ -224,6 +326,7 @@ const deletePatient = asyncHandler(async (req, res) => {
 // @route   Get /route/Patient
 const getPatient = asyncHandler(async (req, res) => {
   const { id } = req.body;
+
   if (!id) return res.status(400).json({ message: "Patient ID required" });
 
   const patient = await Patient.findOne({ _id: id }).exec();

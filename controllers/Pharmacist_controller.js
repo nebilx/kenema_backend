@@ -27,11 +27,9 @@ const insertPharmacist = asyncHandler(async (req, res) => {
     status,
   } = req.body;
 
-  console.log("gebtual");
-// console.log(req.file.path);
-console.log(req.body);
+  console.log(req.body);
 
-  if (!name || !p_pwd || !status ) {
+  if (!name || !p_pwd || !status) {
     return res.status(400).json({ message: "Please add all fields" });
   }
 
@@ -44,25 +42,25 @@ console.log(req.body);
 
   try {
 
- // Upload image to cloudinary
- const result = await cloudinary.uploader.upload(req.file.path,{
-  folder:"pharmacist_image",
+    // Upload image to cloudinary
+    const result = await cloudinary.uploader.upload(req.file.path, {
+      folder: "pharmacist_image",
       width: 150,
       height: 300,
       crop: "fill",
     });
     console.log(result);
-    
+
 
     const pharmacist = new Pharmacist({
       name,
       p_pwd,
-        image: {
+      image: {
         public_id: result.public_id,
         url: result.secure_url,
       },
-        status,
-      },
+      status,
+    },
     );
 
     await pharmacist.save();
@@ -80,9 +78,9 @@ console.log(req.body);
 
 
     return res.status(201).json({ success: `New Pharmacist created!` + pharmacist });
-   } catch (err) {
+  } catch (err) {
     console.log(err);
-    return  res.status(500).send(err);
+    return res.status(500).send(err);
   }
 });
 
@@ -90,7 +88,7 @@ console.log(req.body);
 // @route   Put /route/Pharmacist
 const updatePharmacist = asyncHandler(async (req, res) => {
   console.log(req.body);
-  console.log(req.file);
+  // console.log(req.file);
 
   const {
     id,
@@ -109,65 +107,70 @@ const updatePharmacist = asyncHandler(async (req, res) => {
   if (!pharmacist) {
     return res.status(204).json({ message: `Pharmacist ID ${id} not found` });
   }
-console.log(pharmacist);
-// if(req.file == undefined) {
-//   try {
-//     const pupdate = await Pharmacist.findByIdAndUpdate(
-//       { _id: id },
-//       {
-//         name,
-//         p_pwd,
-//           image: {
-//           url: image,
-//         },
-//           status,
-//       }
-//     );
 
-//     Pharmacist.save();
+  console.log(pharmacist);
+  if (!req.file) {
+    console.log("no file exist");
+    try {
+      const pupdate = await Pharmacist.findOneAndUpdate(
+        { _id: id },
+        {
+          $set: { name },
+          $set: { p_pwd },
+          $set: { status },
+        }
+      );
 
-//     return res.status(201).json({ success: `Pharmacist Updated` + pupdate });
-//   } catch (err) {
-//     return res.status(500).send(err);
-//   }
-// }
+      pupdate.save();
 
-// else {
-  try {
-    console.log("try gebtaul");
-    // Delete image from cloudinary
-   const delet =  await cloudinary.uploader.destroy(pharmacist.image.public_id);
-    // Upload image to cloudinary
-    // let result;
-    // if (req.file) {
-console.log("------/////");
-    console.log(delet);
-  const result = await cloudinary.uploader.upload(req.file.path);
-   // }
-console.log("dersal");
-console.log(result);
-try {
-    const pupdate = await Pharmacist.findByIdAndUpdate(
-      { _id: id },
-      {
-        name,
-        p_pwd,
-        image: {
-          public_id: result.public_id,
-          url: result.secure_url,
-        },
-          status,
-      }
-    );
-
-    Pharmacist.save();
-
-    return res.status(201).json({ success: `Pharmacist Updated` + pupdate });
-}
-catch(errr) {   return res.status(500).send(err);}
-  } catch (err) {
-    return res.status(500).send(err);
+      return res.status(201).json({ success: `Pharmacist Updated` + pupdate });
+    } catch (err) {
+      return res.status(500).send(err);
+    }
   }
+
+  else {
+    try {
+      // Delete image from cloudinary
+      const delet = await cloudinary.uploader.destroy(pharmacist.image.public_id);
+
+      // Upload image to cloudinary
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        folder: "pharmacist_image",
+        width: 150,
+        height: 300,
+        crop: "fill",
+      });
+      console.log(result);
+
+      try {
+        const pupdate = await Pharmacist.findByIdAndUpdate(
+          { _id: id },
+          {
+            $set: { name },
+            $set: { p_pwd },
+            $set: {
+              image: {
+                public_id: result.public_id,
+                url: result.secure_url,
+              }
+            },
+            $set: { status },
+          }
+        );
+
+        pupdate.save();
+
+        return res.status(201).json({ success: `Pharmacist Updated` + pupdate });
+      }
+      catch (errr) { return res.status(500).send(err); }
+
+
+    } catch (err) {
+      return res.status(500).send(err);
+    }
+  }
+
 });
 
 
@@ -181,21 +184,21 @@ const deletePharmacist = asyncHandler(async (req, res) => {
 
   try {
 
-      //check if the Pharmacist exist
-  const pharmacist = await Pharmacist.findById({ _id: id });
+    //check if the Pharmacist exist
+    const pharmacist = await Pharmacist.findById({ _id: id });
 
-  if (!pharmacist) {
-    return res.status(204).json({ message: `Pharmacist ID ${id} not found` });
-  }
+    if (!pharmacist) {
+      return res.status(204).json({ message: `Pharmacist ID ${id} not found` });
+    }
 
     // const pharmacist = await Pharmacist.findByIdAndDelete({ _id: id });
     // return res.status(201).json({ success: `Pharmacist Deleted!` + pharmacist });
 
-      // Delete image from cloudinary
-      await cloudinary.uploader.destroy(pharmacist.image.public_id);
-      // Delete user from db
-      await pharmacist.remove();
-      return res.status(201).json({ success: `Pharmacist Deleted!` + pharmacist });
+    // Delete image from cloudinary
+    await cloudinary.uploader.destroy(pharmacist.image.public_id);
+    // Delete user from db
+    await pharmacist.remove();
+    return res.status(201).json({ success: `Pharmacist Deleted!` + pharmacist });
 
 
   } catch (err) {

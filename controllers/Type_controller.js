@@ -58,7 +58,10 @@ const updateType = asyncHandler(async (req, res) => {
   try {
     const result = await Type.findByIdAndUpdate(
       { _id: id },
-      { type_name, status }
+      {
+        $set: { type_name },
+        $set: { status }
+      }
     );
 
     result.save();

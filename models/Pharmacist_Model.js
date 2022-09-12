@@ -25,6 +25,7 @@ const PharmacistSchema = new Schema({
     }
 
   },
+  
   //Status active or inactive
   status: {
     type: String,

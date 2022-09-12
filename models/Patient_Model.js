@@ -18,7 +18,7 @@ const PatientUserSchema = new Schema({
 });
 
 const PatientInsuranceSchema = new Schema({
-  _id: false,
+   _id: false,
   //Insurance id
   insurance_id: {
     type: String,
@@ -72,7 +72,7 @@ const PatientSchema = new Schema({
   },
   //patient age
   age: {
-    type: Number,
+    type: String,
     required: [true, "patient age is required"],
   },
   //patient gender

@@ -18,6 +18,7 @@ const getAllDosage = asyncHandler(async (req, res) => {
 // @desc    Register new Dosage
 // @route   POST /route/Dosage
 const insertDosage = asyncHandler(async (req, res) => {
+  console.log(req.body);
 
   const { dosage_name, status } = req.body;
 
@@ -59,7 +60,10 @@ const updateDosage = asyncHandler(async (req, res) => {
   try {
     const result = await Dosage.findByIdAndUpdate(
       { _id: id },
-      { dosage_name, status }
+      {
+        $set: { dosage_name },
+        $set: { status }
+      }
     );
 
     result.save();

@@ -75,9 +75,17 @@ const MedicineSchema = new Schema({
   },
 
   //Medicine image
-  image: {
-    type: String,
-    required: [true, "Medicine image is required"],
+  image:{
+    public_id:{
+        type:String,
+        required: [true, "publid id is required"],
+
+    },
+    url:{
+        type:String,
+        required: [true, "url is required"],
+    }
+
   },
 
   status: {

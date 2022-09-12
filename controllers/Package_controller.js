@@ -58,7 +58,10 @@ const updatePackage = asyncHandler(async (req, res) => {
   try {
     const result = await Package.findByIdAndUpdate(
       { _id: id },
-      { package_name, status }
+      {
+        $set: { package_name },
+        $set: { status }
+      }
     );
 
     result.save();
