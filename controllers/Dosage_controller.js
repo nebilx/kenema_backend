@@ -62,7 +62,7 @@ const updateDosage = asyncHandler(async (req, res) => {
       { _id: id },
       {
         $set: { dosage_name },
-        $set: { status }
+        $set: { status },
       }
     );
 
@@ -99,7 +99,9 @@ const deleteDosage = asyncHandler(async (req, res) => {
 // @desc    Get one Dosage
 // @route   Get /route/Dosage
 const getDosage = asyncHandler(async (req, res) => {
-  const { id } = req.body;
+  console.log(req.params.id);
+
+  const id = req.params.id;
   if (!id) return res.status(400).json({ message: "Dosage ID required" });
 
   const dosage = await Dosage.findOne({ _id: id }).exec();

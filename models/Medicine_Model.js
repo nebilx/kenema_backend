@@ -32,22 +32,10 @@ const MedicineSchema = new Schema({
     required: [true, "Medicine generic_name is required"],
   },
 
-  //Medicine date manufacture
-  date_mfg: {
-    type: String,
-    required: [true, "Medicine manufacture date is required"],
-  },
-
   //Medicine dosage
   dosage: {
     type: String,
     required: [true, "Medicine dosage is required"],
-  },
-
-  //Medicine date expire
-  date_expire: {
-    type: String,
-    required: [true, "Medicine date expire is required"],
   },
 
   //Medicine price
@@ -75,17 +63,15 @@ const MedicineSchema = new Schema({
   },
 
   //Medicine image
-  image:{
-    public_id:{
-        type:String,
-        required: [true, "publid id is required"],
-
+  image: {
+    public_id: {
+      type: String,
+      required: [true, "publid id is required"],
     },
-    url:{
-        type:String,
-        required: [true, "url is required"],
-    }
-
+    url: {
+      type: String,
+      required: [true, "url is required"],
+    },
   },
 
   status: {

@@ -12,8 +12,8 @@ const multer = require("../utils/multer");
 router
   .route("/")
   .get(getAllMedicine)
-  .post(multer.single('image'),insertMedicine)
-  .put(multer.single('image'),updateMedicine)
+  .post(multer.single("image"), insertMedicine)
+  .put(multer.single("image"), updateMedicine)
   .delete(deleteMedicine);
 
 router.route("/:id").get(getMedicine);

@@ -112,3 +112,9 @@
 20220912	09:35:25	797a6289-6008-4941-8b18-2216e1b40a87	TypeError: Cannot read properties of undefined (reading '0')
 20220912	09:46:20	8e6647c7-5129-4101-8533-ac97abf43b39	MulterError: Unexpected field
 20220912	20:51:16	1cb5b383-0440-49e5-9bb1-8e23ea5c34da	ReferenceError: storedData is not defined
+20220913	16:03:14	d9ea783a-d6c8-47b0-a480-4c9d55598ca5	CastError: Cast to ObjectId failed for value "null" (type string) at path "_id" for model "Branch"
+20220913	16:03:14	dadda8f7-399e-44da-bb3e-0bbbef02d33f	CastError: Cast to ObjectId failed for value "null" (type string) at path "_id" for model "Branch"
+20220913	18:00:09	ce6d7c6d-ef09-4e89-999b-96eb40899368	CastError: Cast to ObjectId failed for value "girma" (type string) at path "_id" for model "patient"
+20220913	18:01:52	c7232f99-29b7-481b-b61b-845f1a05c6cf	CastError: Cast to ObjectId failed for value "girma" (type string) at path "_id" for model "patient"
+20220913	18:02:21	fb9cd8a2-9b4b-48e1-bd64-64e9c43a8743	CastError: Cast to ObjectId failed for value "girma" (type string) at path "_id" for model "patient"
+20220913	18:02:35	55989be1-59c6-4513-b4c0-c58938ea3e00	CastError: Cast to ObjectId failed for value "girma" (type string) at path "_id" for model "patient"

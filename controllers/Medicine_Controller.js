@@ -19,16 +19,13 @@ const getAllMedicine = asyncHandler(async (req, res) => {
 // @desc    Register new Medicine
 // @route   POST /route/Medicine
 const insertMedicine = asyncHandler(async (req, res) => {
-
   const {
     medicine_id,
     name,
     type,
     mfg,
     generic_name,
-    date_mfg,
     dosage,
-    date_expire,
     price,
     strength,
     unit,
@@ -45,9 +42,7 @@ const insertMedicine = asyncHandler(async (req, res) => {
     !type ||
     !mfg ||
     !generic_name ||
-    !date_mfg ||
     !dosage ||
-    !date_expire ||
     !price ||
     !strength ||
     !unit ||
@@ -84,9 +79,7 @@ const insertMedicine = asyncHandler(async (req, res) => {
       type,
       mfg,
       generic_name,
-      date_mfg,
       dosage,
-      date_expire,
       price,
       strength,
       unit,
@@ -100,7 +93,9 @@ const insertMedicine = asyncHandler(async (req, res) => {
 
     await medicine.save();
 
-    return res.status(201).json({ success: `New Medicine created!` + medicine });
+    return res
+      .status(201)
+      .json({ success: `New Medicine created!` + medicine });
   } catch (err) {
     return res.status(500).send(err);
   }
@@ -116,9 +111,7 @@ const updateMedicine = asyncHandler(async (req, res) => {
     type,
     mfg,
     generic_name,
-    date_mfg,
     dosage,
-    date_expire,
     price,
     strength,
     unit,
@@ -149,9 +142,7 @@ const updateMedicine = asyncHandler(async (req, res) => {
           $set: { type },
           $set: { mfg },
           $set: { generic_name },
-          $set: { date_mfg },
           $set: { dosage },
-          $set: { date_expire },
           $set: { price },
           $set: { strength },
           $set: { unit },
@@ -166,11 +157,8 @@ const updateMedicine = asyncHandler(async (req, res) => {
     } catch (err) {
       return res.status(500).send(err);
     }
-  }
-
-  else {
+  } else {
     try {
-
       // Delete image from cloudinary
       const delet = await cloudinary.uploader.destroy(medicine.image.public_id);
 
@@ -192,9 +180,7 @@ const updateMedicine = asyncHandler(async (req, res) => {
             $set: { type },
             $set: { mfg },
             $set: { generic_name },
-            $set: { date_mfg },
             $set: { dosage },
-            $set: { date_expire },
             $set: { price },
             $set: { strength },
             $set: { unit },
@@ -203,7 +189,7 @@ const updateMedicine = asyncHandler(async (req, res) => {
               image: {
                 public_id: mresult.public_id,
                 url: mresult.secure_url,
-              }
+              },
             },
             $set: { status },
           }
@@ -212,16 +198,14 @@ const updateMedicine = asyncHandler(async (req, res) => {
         mupdate.save();
 
         return res.status(201).json({ success: `Medicine Updated` + mupdate });
+      } catch (errr) {
+        return res.status(500).send(errr);
       }
-      catch (errr) { return res.status(500).send(errr); }
-
-
     } catch (err) {
       return res.status(500).send(err);
     }
   }
 });
-
 
 // @desc    Delete Medicine
 // @route   Delete /route/Medicine
@@ -238,7 +222,6 @@ const deleteMedicine = asyncHandler(async (req, res) => {
       return res.status(204).json({ message: `Medicine ID ${id} not found` });
     }
 
-
     // const result = await Medicine.findByIdAndDelete({ _id: id });
 
     // Delete image from cloudinary
@@ -247,7 +230,6 @@ const deleteMedicine = asyncHandler(async (req, res) => {
     await medicine.remove();
 
     return res.status(201).json({ success: `Medicine Deleted!` + medicine });
-
   } catch (err) {
     return res.status(500).send(err);
   }
@@ -256,7 +238,9 @@ const deleteMedicine = asyncHandler(async (req, res) => {
 // @desc    Get one Medicine
 // @route   Get /route/Medicine
 const getMedicine = asyncHandler(async (req, res) => {
-  const { id } = req.body;
+  console.log(req.params.id);
+
+  const id = req.params.id;
   if (!id) return res.status(400).json({ message: "Medicine ID required" });
 
   const medicine = await Medicine.findOne({ _id: id }).exec();
@@ -265,7 +249,7 @@ const getMedicine = asyncHandler(async (req, res) => {
     return res.status(204).json({ message: `User ID ${id} not found` });
   }
   try {
-    return res.status(200).json(Medicine);
+    return res.status(200).json(medicine);
   } catch (err) {
     return res.status(500).send(err);
   }

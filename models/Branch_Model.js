@@ -17,12 +17,12 @@ const BranchSchema = new Schema({
     type: String,
     required: [true, "branch address is required"],
   },
-  
-  // status 
+
+  // status
   status: {
     type: String,
-    required:[true, "branch address is required"],
-  }
+    required: [true, "branch status is required"],
+  },
 });
 
 module.exports = mongoose.model("Branch", BranchSchema);

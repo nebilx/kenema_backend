@@ -32,25 +32,37 @@ const BatchSchema = new Schema({
     required: [true, "batch date"],
   },
 
-  batch_medicine: [{
-    type:Array,
-    required:[true, "medicine batch required"],
+  batch_medicine: [
+    {
+      type: Array,
+      required: [true, "medicine batch required"],
 
-    // medicine_name: {
-    //   type: String,
-    //   required: [true, "medicine name required"]
-    // },
-    // medicine_quantity: {
-    //   type: String,
-    //   required: [true, "medicine expire required"]
-    // },
-    // medicine_expiredate: {
-    //   type: String,
-    //   required: [true, "medicine date required"]
-    // }
-  }],
+      // medicine_name: {
+      //   type: String,
+      //   required: [true, "medicine name required"]
+      // },
+      // medicine_quantity: {
+      //   type: String,
+      //   required: [true, "medicine expire required"]
+      // },
+      // medicine_expiredate: {
+      //   type: String,
+      //   required: [true, "medicine date required"]
+      // }
 
+      //Medicine date manufacture
+      date_mfg: {
+        type: String,
+        required: [true, "Medicine manufacture date is required"],
+      },
 
+      //Medicine date expire
+      date_expire: {
+        type: String,
+        required: [true, "Medicine date expire is required"],
+      },
+    },
+  ],
 });
 
 module.exports = mongoose.model("Batch", BatchSchema);

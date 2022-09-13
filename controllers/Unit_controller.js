@@ -59,7 +59,7 @@ const updateUnit = asyncHandler(async (req, res) => {
       { _id: id },
       {
         $set: { unit_name },
-        $set: { status }
+        $set: { status },
       }
     );
 
@@ -96,7 +96,9 @@ const deleteUnit = asyncHandler(async (req, res) => {
 // @desc    Get one Unit
 // @route   Get /route/Unit
 const getUnit = asyncHandler(async (req, res) => {
-  const { id } = req.body;
+  console.log(req.params.id);
+
+  const id = req.params.id;
   if (!id) return res.status(400).json({ message: "Unit ID required" });
 
   const unit = await Unit.findOne({ _id: id }).exec();

@@ -62,7 +62,7 @@ const updateBranch = asyncHandler(async (req, res) => {
         $set: { name },
         $set: { pno },
         $set: { address },
-        $set: { status }
+        $set: { status },
       }
     );
 
@@ -99,7 +99,9 @@ const deleteBranch = asyncHandler(async (req, res) => {
 // @desc    Get one Branch
 // @route   Get /route/branch
 const getBranch = asyncHandler(async (req, res) => {
-  const { id } = req.body;
+  console.log(req.params.id);
+
+  const id = req.params.id;
   if (!id) return res.status(400).json({ message: "Branch ID required" });
 
   const branch = await Branch.findOne({ _id: id }).exec();

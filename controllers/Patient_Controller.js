@@ -20,7 +20,6 @@ const getAllPatient = asyncHandler(async (req, res) => {
 // @desc    Register new Patient
 // @route   POST /route/Patient
 const insertPatient = asyncHandler(async (req, res) => {
-
   console.log("........./////////..........");
   const {
     name,
@@ -40,7 +39,6 @@ const insertPatient = asyncHandler(async (req, res) => {
   } = req.body;
   console.log(req.body);
   console.log(req.file);
-
 
   console.log("...........////////////////......... p_image");
   console.log(req.files.p_image[0]);
@@ -79,19 +77,25 @@ const insertPatient = asyncHandler(async (req, res) => {
   try {
     //Upload to cloudinary
 
-    const p_imageUploaded = await cloudinary.uploader.upload(req.files.p_image[0].path, {
-      folder: "Patient_image",
-      width: 150,
-      height: 300,
-      crop: "fill",
-    });
+    const p_imageUploaded = await cloudinary.uploader.upload(
+      req.files.p_image[0].path,
+      {
+        folder: "Patient_image",
+        width: 150,
+        height: 300,
+        crop: "fill",
+      }
+    );
 
-    const i_imageUploaded = await cloudinary.uploader.upload(req.files.insurance_image[0].path, {
-      folder: "Insurance_image",
-      width: 150,
-      height: 300,
-      crop: "fill",
-    });
+    const i_imageUploaded = await cloudinary.uploader.upload(
+      req.files.insurance_image[0].path,
+      {
+        folder: "Insurance_image",
+        width: 150,
+        height: 300,
+        crop: "fill",
+      }
+    );
 
     if (!p_imageUploaded || !i_imageUploaded) {
       console.log("something went wrong");
@@ -191,23 +195,24 @@ const updatePatient = asyncHandler(async (req, res) => {
               sub_city,
               woreda,
               house_no,
-            }
+            },
           },
 
           $set: {
             insurance: {
               insurance_id,
-              insurance_name
-            }
+              insurance_name,
+            },
           },
           $set: {
             user: {
               user_name: uname,
               user_pwd: upwd,
               status,
-            }
+            },
           },
-        });
+        }
+      );
 
       await pupdate.save();
 
@@ -215,33 +220,37 @@ const updatePatient = asyncHandler(async (req, res) => {
     } catch (err) {
       return res.status(500).send(err);
     }
-  }
-  else {
-
+  } else {
     // Delete image from cloudinary
     await cloudinary.uploader.destroy(patient.p_image.public_id);
-    await cloudinary.uploader.destroy(patient.insurance[0].insurance_image.public_id);
+    await cloudinary.uploader.destroy(
+      patient.insurance[0].insurance_image.public_id
+    );
 
+    const p_imageUploaded = await cloudinary.uploader.upload(
+      req.files.p_image[0].path,
+      {
+        folder: "Patient_image",
+        width: 150,
+        height: 300,
+        crop: "fill",
+      }
+    );
 
-    const p_imageUploaded = await cloudinary.uploader.upload(req.files.p_image[0].path, {
-      folder: "Patient_image",
-      width: 150,
-      height: 300,
-      crop: "fill",
-    });
-
-    const i_imageUploaded = await cloudinary.uploader.upload(req.files.insurance_image[0].path, {
-      folder: "Insurance_image",
-      width: 150,
-      height: 300,
-      crop: "fill",
-    });
+    const i_imageUploaded = await cloudinary.uploader.upload(
+      req.files.insurance_image[0].path,
+      {
+        folder: "Insurance_image",
+        width: 150,
+        height: 300,
+        crop: "fill",
+      }
+    );
 
     try {
       const pupdate = await Patient.findByIdAndUpdate(
         { _id: id },
         {
-
           $set: { name },
           $set: { age },
           $set: { gender },
@@ -257,7 +266,7 @@ const updatePatient = asyncHandler(async (req, res) => {
               sub_city,
               woreda,
               house_no,
-            }
+            },
           },
 
           $set: {
@@ -268,16 +277,15 @@ const updatePatient = asyncHandler(async (req, res) => {
                 public_id: i_imageUploaded.public_id,
                 url: i_imageUploaded.secure_url,
               },
-            }
+            },
           },
           $set: {
             user: {
               user_name: uname,
               user_pwd: upwd,
               status,
-            }
-
-          }
+            },
+          },
         }
       );
 
@@ -307,16 +315,16 @@ const deletePatient = asyncHandler(async (req, res) => {
       return res.status(204).json({ message: `Patient ID ${id} not found` });
     }
 
-
     // Delete image from cloudinary
     await cloudinary.uploader.destroy(patient.p_image.public_id);
-    await cloudinary.uploader.destroy(patient.insurance[0].insurance_image.public_id);
+    await cloudinary.uploader.destroy(
+      patient.insurance[0].insurance_image.public_id
+    );
 
     // Delete patient from db
     await patient.remove();
 
     return res.status(201).json({ success: `Patient Deleted!` + patient });
-
   } catch (err) {
     return res.status(500).send(err);
   }
@@ -325,7 +333,9 @@ const deletePatient = asyncHandler(async (req, res) => {
 // @desc    Get one Patient
 // @route   Get /route/Patient
 const getPatient = asyncHandler(async (req, res) => {
-  const { id } = req.body;
+  console.log(req.params.id);
+
+  const id = req.params.id;
 
   if (!id) return res.status(400).json({ message: "Patient ID required" });
 
@@ -335,7 +345,7 @@ const getPatient = asyncHandler(async (req, res) => {
     return res.status(204).json({ message: `User ID ${id} not found` });
   }
   try {
-    return res.status(200).json(Patient);
+    return res.status(200).json(patient);
   } catch (err) {
     return res.status(500).send(err);
   }

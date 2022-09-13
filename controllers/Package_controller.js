@@ -60,7 +60,7 @@ const updatePackage = asyncHandler(async (req, res) => {
       { _id: id },
       {
         $set: { package_name },
-        $set: { status }
+        $set: { status },
       }
     );
 
@@ -98,7 +98,9 @@ const deletePackage = asyncHandler(async (req, res) => {
 // @desc    Get one Package
 // @route   Get /route/Package
 const getPackage = asyncHandler(async (req, res) => {
-  const { id } = req.body;
+  console.log(req.params.id);
+
+  const id = req.params.id;
   if (!id) return res.status(400).json({ message: "Package ID required" });
 
   const package = await Package.findOne({ _id: id }).exec();

@@ -6,7 +6,8 @@ const asyncHandler = require("express-async-handler");
 const getAllPrescription = asyncHandler(async (req, res) => {
   // Check if Prescription exists
   const Prescription = await Prescription.find();
-  if (!Prescription) return res.status(204).json({ message: "No Prescription found" });
+  if (!Prescription)
+    return res.status(204).json({ message: "No Prescription found" });
 
   try {
     return res.status(200).json(Prescription);
@@ -36,7 +37,9 @@ const insertPrescription = asyncHandler(async (req, res) => {
   try {
     const result = await Prescription.create({ Prescription_name, status });
 
-    return res.status(201).json({ success: `New Prescription created!` + result });
+    return res
+      .status(201)
+      .json({ success: `New Prescription created!` + result });
   } catch (err) {
     return res.status(500).send(err);
   }
@@ -62,7 +65,7 @@ const updatePrescription = asyncHandler(async (req, res) => {
       { _id: id },
       {
         $set: { Prescription_name },
-        $set: { status }
+        $set: { status },
       }
     );
 
@@ -99,7 +102,9 @@ const deletePrescription = asyncHandler(async (req, res) => {
 // @desc    Get one Prescription
 // @route   Get /route/Prescription
 const getPrescription = asyncHandler(async (req, res) => {
-  const { id } = req.body;
+  console.log(req.params.id);
+
+  const id = req.params.id;
   if (!id) return res.status(400).json({ message: "Prescription ID required" });
 
   const Prescription = await Prescription.findOne({ _id: id }).exec();
