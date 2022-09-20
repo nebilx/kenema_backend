@@ -12,7 +12,7 @@ const { logger } = require("./middleware/logEvents");
 const errorHandler = require("./middleware/errorHandler");
 const cookieParser = require("cookie-parser");
 const credentials = require("./middleware/credentials");
-
+const verify_tokken = require("./middleware/authenticateToken");
 const medcontent = require("./routes/medcontent");
 const branch = require("./routes/Branch");
 const patient = require("./routes/Patient");
@@ -24,6 +24,7 @@ const unit = require("./routes/Unit");
 const type = require("./routes/Type");
 const dosage = require("./routes/Dosage");
 const prescription = require("./routes/Prescription");
+const pharmacy_user = require("./routes/Pharmacy_User");
 
 const mongoose = require("mongoose");
 const connectDB = require("./config/db");
@@ -46,7 +47,7 @@ app.use(cors(corsOptions));
 // built-in middleware for json
 app.use(express.json());
 // built-in middleware to handle urlencoded form data
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({ extended: false }));
 
 //middleware for cookies
 app.use(cookieParser());
@@ -58,12 +59,16 @@ app.use("/medcontent", medcontent);
 app.use("/type", type);
 app.use("/dosage", dosage);
 app.use("/branch", branch);
-app.use("/pharmacist",pharmacist);
+app.use("/pharmacy_user", pharmacy_user);
+app.use("/pharmacist", pharmacist);
 app.use("/patient", patient);
 app.use("/medicine", medicine);
 app.use("/batch", Batch);
-app.use("/prescription",prescription);
+app.use("/prescription", prescription);
 
+app.get("/test", verify_tokken, (req, res) => {
+  res.json("test data reached");
+});
 
 app.all("*", (req, res) => {
   res.status(404);

@@ -18,6 +18,11 @@ const BranchSchema = new Schema({
     required: [true, "branch address is required"],
   },
 
+  location: {
+    type: String,
+    required: [true, "branch location is required"],
+  },
+
   // status
   status: {
     type: String,

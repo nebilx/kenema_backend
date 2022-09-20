@@ -5,7 +5,7 @@ const UnitSchema = new Schema({
   // unit name
   unit_name: {
     type: String,
-    required: [true, "name Unit is required"],
+    required: [true, "Unit name is required"],
   },
 
   //Status active or inactive

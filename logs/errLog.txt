@@ -118,3 +118,13 @@
 20220913	18:01:52	c7232f99-29b7-481b-b61b-845f1a05c6cf	CastError: Cast to ObjectId failed for value "girma" (type string) at path "_id" for model "patient"
 20220913	18:02:21	fb9cd8a2-9b4b-48e1-bd64-64e9c43a8743	CastError: Cast to ObjectId failed for value "girma" (type string) at path "_id" for model "patient"
 20220913	18:02:35	55989be1-59c6-4513-b4c0-c58938ea3e00	CastError: Cast to ObjectId failed for value "girma" (type string) at path "_id" for model "patient"
+20220919	11:59:54	b506be8c-9060-4437-90a0-b09d2278c7ab	CastError: Cast to ObjectId failed for value "null" (type string) at path "_id" for model "Batch"
+20220919	11:59:54	8d8febe8-9e27-48b6-869a-efaadef11b0d	CastError: Cast to ObjectId failed for value "null" (type string) at path "_id" for model "Batch"
+20220919	12:02:37	ec3f8bf0-ba73-4633-b8ff-c7550ad0756c	MongoNetworkTimeoutError: connection 6 to 13.245.107.72:27017 timed out
+20220919	12:03:09	66a7161a-c1ce-4b59-9671-350b6c6718c8	MongooseServerSelectionError: Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://docs.atlas.mongodb.com/security-whitelist/
+20220920	18:10:54	ae2f3cd9-4225-45ef-a483-df0cc0489841	MulterError: Unexpected field
+20220920	18:13:44	f5328fb3-0ba2-4b40-a093-0f7cb0f1105c	MulterError: Unexpected field
+20220920	18:16:25	424504fa-b634-4338-9bcf-f96aa7e11a66	SyntaxError: Unexpected token } in JSON at position 44
+20220920	18:16:41	1b50157f-6bba-4026-a603-3075480cc249	Error: Illegal arguments: string, undefined
+20220920	18:17:17	772f9598-7a68-43d6-9bb8-015d59847fa9	Error: Cannot set headers after they are sent to the client
+20220920	18:19:15	32dec0d9-c11a-4f27-97d4-24cec7babfe5	Error: Cannot set headers after they are sent to the client
