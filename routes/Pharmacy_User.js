@@ -1,17 +1,20 @@
 const express = require("express");
 const router = express.Router();
 const {
-  signup,
-  login,
-  refresh,
-  logout,
-} = require("../controllers/Pharmacy_User_Controller");
+  getAllPharmacyUser,
+  insertPharmacyUser,
+  updatePharmacyUser,
+  deletePharmacyUser,
+  getPharmacyUser,
+} = require("../controllers/Pharmacy_User_Account_Controller");
 
 const multer = require("../utils/multer");
 
-router.post("/signup", multer.single("image"), signup);
-router.post("/login", login);
-router.get("/refresh", refresh);
-router.post("/logout", logout);
+router
+  .route("/")
+  .get(getAllPharmacyUser)
+  .post(multer.single("image"), insertPharmacyUser)
+  .put(multer.single("image"), updatePharmacyUser)
+  .delete(deletePharmacyUser);
 
-module.exports = router;
+router.route("/:id").get(getPharmacyUser);

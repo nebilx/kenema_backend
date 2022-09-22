@@ -12,19 +12,15 @@ const { logger } = require("./middleware/logEvents");
 const errorHandler = require("./middleware/errorHandler");
 const cookieParser = require("cookie-parser");
 const credentials = require("./middleware/credentials");
-const verify_tokken = require("./middleware/authenticateToken");
-const medcontent = require("./routes/medcontent");
+const verify_token = require("./middleware/authenticateToken");
+
+const auth = require("./routes/Auth");
+const batch = require("./routes/Batch");
 const branch = require("./routes/Branch");
-const patient = require("./routes/Patient");
-const pharmacist = require("./routes/Pharmacist");
+const insurance_user = require("./routes/Insurance_User");
 const medicine = require("./routes/Medicine");
-const Batch = require("./routes/Batch");
-const package = require("./routes/Package");
-const unit = require("./routes/Unit");
-const type = require("./routes/Type");
-const dosage = require("./routes/Dosage");
-const prescription = require("./routes/Prescription");
 const pharmacy_user = require("./routes/Pharmacy_User");
+const prescription = require("./routes/Prescription");
 
 const mongoose = require("mongoose");
 const connectDB = require("./config/db");
@@ -53,20 +49,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 //routes
-app.use("/unit", unit);
-app.use("/package", package);
-app.use("/medcontent", medcontent);
-app.use("/type", type);
-app.use("/dosage", dosage);
+app.use("/auth", auth);
+app.use("/batch", batch);
 app.use("/branch", branch);
-app.use("/pharmacy_user", pharmacy_user);
-app.use("/pharmacist", pharmacist);
-app.use("/patient", patient);
+app.use("/insurance_user", insurance_user);
 app.use("/medicine", medicine);
-app.use("/batch", Batch);
+app.use("/pharmacy_user", pharmacy_user);
 app.use("/prescription", prescription);
 
-app.get("/test", verify_tokken, (req, res) => {
+app.get("/test", verify_token, (req, res) => {
   res.json("test data reached");
 });
 

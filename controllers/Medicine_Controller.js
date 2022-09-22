@@ -19,34 +19,16 @@ const getAllMedicine = asyncHandler(async (req, res) => {
 // @desc    Register new Medicine
 // @route   POST /route/Medicine
 const insertMedicine = asyncHandler(async (req, res) => {
-  const {
-    medicine_id,
-    name,
-    type,
-    mfg,
-    generic_name,
-    dosage,
-    price,
-    strength,
-    unit,
-    package,
-    status,
-  } = req.body;
-
-  console.log(req.body);
-  console.log(req.file);
+  const { medicine_id, name, mfg, generic_name, strength, unit, status } =
+    req.body;
 
   if (
     !medicine_id ||
     !name ||
-    !type ||
     !mfg ||
     !generic_name ||
-    !dosage ||
-    !price ||
     !strength ||
     !unit ||
-    !package ||
     !status
   ) {
     return res.status(400).json({ message: "Please add all fields" });
@@ -55,15 +37,11 @@ const insertMedicine = asyncHandler(async (req, res) => {
   // Check if Medicine exists
   const MedicineExists = await Medicine.findOne({ medicine_id });
 
-  console.log(MedicineExists);
-
   if (MedicineExists) {
     return res.status(409).json({ message: "Medicine already exists" }); // 409 conflict
   }
 
   try {
-    console.log("now it here");
-
     // Upload image to cloudinary
     const mresult = await cloudinary.uploader.upload(req.file.path, {
       folder: "medicine_image",
@@ -76,14 +54,10 @@ const insertMedicine = asyncHandler(async (req, res) => {
     const medicine = new Medicine({
       medicine_id,
       name,
-      type,
       mfg,
       generic_name,
-      dosage,
-      price,
       strength,
       unit,
-      package,
       image: {
         public_id: mresult.public_id,
         url: mresult.secure_url,
@@ -104,49 +78,29 @@ const insertMedicine = asyncHandler(async (req, res) => {
 // @desc    Update Medicine
 // @route   Put /route/Medicine
 const updateMedicine = asyncHandler(async (req, res) => {
-  const {
-    id,
-    medicine_id,
-    name,
-    type,
-    mfg,
-    generic_name,
-    dosage,
-    price,
-    strength,
-    unit,
-    package,
-    status,
-  } = req.body;
-
-  console.log(JSON.parse(JSON.stringify(req.body)));
+  const { id, medicine_id, name, mfg, generic_name, strength, unit, status } =
+    req.body;
 
   if (!id) return res.status(400).json({ message: "Medicine ID required" });
 
   // check if Medicine exists
   const medicine = await Medicine.findOne({ _id: id });
 
-  console.log(medicine);
   if (!medicine) {
     return res.status(204).json({ message: `Medicine ID ${id} not found` });
   }
 
   if (!req.file) {
-    console.log("no file exist");
     try {
       const mupdate = await Medicine.findOneAndUpdate(
         { _id: id },
         {
           $set: { medicine_id },
           $set: { name },
-          $set: { type },
           $set: { mfg },
           $set: { generic_name },
-          $set: { dosage },
-          $set: { price },
           $set: { strength },
           $set: { unit },
-          $set: { package },
           $set: { status },
         }
       );
@@ -160,7 +114,9 @@ const updateMedicine = asyncHandler(async (req, res) => {
   } else {
     try {
       // Delete image from cloudinary
-      const delet = await cloudinary.uploader.destroy(medicine.image.public_id);
+      const Delete = await cloudinary.uploader.destroy(
+        medicine.image.public_id
+      );
 
       // Upload image to cloudinary
       const mresult = await cloudinary.uploader.upload(req.file.path, {
@@ -169,7 +125,6 @@ const updateMedicine = asyncHandler(async (req, res) => {
         height: 300,
         crop: "fill",
       });
-      console.log(mresult);
 
       try {
         const mupdate = await Medicine.findByIdAndUpdate(
@@ -177,14 +132,10 @@ const updateMedicine = asyncHandler(async (req, res) => {
           {
             $set: { medicine_id },
             $set: { name },
-            $set: { type },
             $set: { mfg },
             $set: { generic_name },
-            $set: { dosage },
-            $set: { price },
             $set: { strength },
             $set: { unit },
-            $set: { package },
             $set: {
               image: {
                 public_id: mresult.public_id,
@@ -222,8 +173,6 @@ const deleteMedicine = asyncHandler(async (req, res) => {
       return res.status(204).json({ message: `Medicine ID ${id} not found` });
     }
 
-    // const result = await Medicine.findByIdAndDelete({ _id: id });
-
     // Delete image from cloudinary
     await cloudinary.uploader.destroy(medicine.image.public_id);
     // Delete user from db
@@ -238,8 +187,6 @@ const deleteMedicine = asyncHandler(async (req, res) => {
 // @desc    Get one Medicine
 // @route   Get /route/Medicine
 const getMedicine = asyncHandler(async (req, res) => {
-  console.log(req.params.id);
-
   const id = req.params.id;
   if (!id) return res.status(400).json({ message: "Medicine ID required" });
 

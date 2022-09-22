@@ -19,27 +19,62 @@ const getAllPrescription = asyncHandler(async (req, res) => {
 // @desc    Register new Prescription
 // @route   POST /route/Prescription
 const insertPrescription = asyncHandler(async (req, res) => {
-  console.log(req.body);
+  const {
+    Prescription_id,
+    Prescription_date,
+    insurance_user_id,
+    hospital_name,
+    medicine_name,
+    dosage,
+    refill_date,
+    duration,
+    take_time,
+    branch,
+    status,
+  } = req.body;
 
-  const { Prescription_name, status } = req.body;
-
-  if (!Prescription_name || !status) {
+  if (
+    Prescription_id ||
+    !Prescription_date ||
+    !insurance_user_id ||
+    !hospital_name ||
+    !medicine_name ||
+    !dosage ||
+    !refill_date ||
+    !duration ||
+    !take_time ||
+    !branch ||
+    !status
+  ) {
     return res.status(400).json({ message: "Please add all fields" });
   }
 
   // Check if Prescription exists
-  const PrescriptionExists = await Prescription.findOne({ Prescription_name });
+  const PrescriptionExists = await Prescription.findOne({ Prescription_id });
 
   if (PrescriptionExists) {
     return res.status(409).json({ message: "Prescription already exists" }); // 409 conflict
   }
 
   try {
-    const result = await Prescription.create({ Prescription_name, status });
+    const prescription = new Prescription({
+      Prescription_id,
+      Prescription_date,
+      insurance_user_id,
+      hospital_name,
+      medicine_name,
+      dosage,
+      refill_date,
+      duration,
+      take_time,
+      branch,
+      status,
+    });
 
+    await prescription.save();
     return res
       .status(201)
-      .json({ success: `New Prescription created!` + result });
+      .json({ success: `New Prescription created!` + prescription });
   } catch (err) {
     return res.status(500).send(err);
   }
@@ -48,30 +83,42 @@ const insertPrescription = asyncHandler(async (req, res) => {
 // @desc    Update Prescription
 // @route   Put /route/Prescription
 const updatePrescription = asyncHandler(async (req, res) => {
-  const { id, Prescription_name, status } = req.body;
-
+  const {
+    id,
+    medicine_name,
+    dosage,
+    refill_date,
+    duration,
+    take_time,
+    status,
+  } = req.body;
   if (!id) return res.status(400).json({ message: "Prescription ID required" });
 
   // check if Prescription exists
   const PrescriptionExists = await Prescription.findOne({ _id: id });
 
-  console.log(PrescriptionExists);
   if (!PrescriptionExists) {
     return res.status(204).json({ message: `Prescription ID ${id} not found` });
   }
 
   try {
-    const result = await Prescription.findByIdAndUpdate(
+    const prescription = await Prescription.findByIdAndUpdate(
       { _id: id },
       {
-        $set: { Prescription_name },
+        $set: { medicine_name },
+        $set: { dosage },
+        $set: { refill_date },
+        $set: { duration },
+        $set: { take_time },
         $set: { status },
       }
     );
 
-    result.save();
+    prescription.save();
 
-    return res.status(201).json({ success: `Prescription Updated` + result });
+    return res
+      .status(201)
+      .json({ success: `Prescription Updated` + prescription });
   } catch (err) {
     return res.status(500).send(err);
   }
@@ -92,8 +139,10 @@ const deletePrescription = asyncHandler(async (req, res) => {
   }
 
   try {
-    const result = await Prescription.findByIdAndDelete({ _id: id });
-    return res.status(201).json({ success: `Prescription Deleted!` + result });
+    const prescription = await Prescription.findByIdAndDelete({ _id: id });
+    return res
+      .status(201)
+      .json({ success: `Prescription Deleted!` + prescription });
   } catch (err) {
     return res.status(500).send(err);
   }
@@ -107,13 +156,13 @@ const getPrescription = asyncHandler(async (req, res) => {
   const id = req.params.id;
   if (!id) return res.status(400).json({ message: "Prescription ID required" });
 
-  const Prescription = await Prescription.findOne({ _id: id }).exec();
+  const prescription = await Prescription.findOne({ _id: id }).exec();
 
-  if (!Prescription) {
+  if (!prescription) {
     return res.status(204).json({ message: `User ID ${id} not found` });
   }
   try {
-    return res.status(200).json(Prescription);
+    return res.status(200).json(prescription);
   } catch (err) {
     return res.status(500).send(err);
   }

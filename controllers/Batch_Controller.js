@@ -18,10 +18,17 @@ const getAllBatch = asyncHandler(async (req, res) => {
 // @desc    Register new Batch
 // @route   POST /route/Batch
 const insertBatch = asyncHandler(async (req, res) => {
-  console.log(req.body);
-  const { batch_date, medData } = req.body;
+  const { batch_date, medicine_id, quantity, date_expire, date_mfg, branch } =
+    req.body;
 
-  if (!batch_date || !medData) {
+  if (
+    !batch_date ||
+    !medicine_id ||
+    !quantity ||
+    !date_expire ||
+    !date_mfg ||
+    !branch
+  ) {
     return res.status(400).json({ message: "Please add all fields" });
   }
 
@@ -33,21 +40,21 @@ const insertBatch = asyncHandler(async (req, res) => {
   }
 
   try {
-    //     const batch = new Batch({
-    //       batch_date,
-    //       batch_medicine: {
-    //         medicine_name: medData[0].medname,
-    //         medicine_quantity: medData[0].medexpire,
-    //         medicine_expiredate: medData[0].medquantity,
-    //       }
-    //     });
-
-    // await batch.save();
-
-    const batch = await Batch.insertMany({
+    const batch = new Batch({
       batch_date,
-      batch_medicine: medData,
+      medicine_id,
+      quantity,
+      date_expire,
+      date_mfg,
+      branch,
     });
+
+    await batch.save();
+
+    // const batch = await Batch.insertMany({
+    //   batch_date,
+    //   batch_medicine: medData,
+    // });
 
     return res.status(201).json({ success: `New Batch created!` + batch });
   } catch (err) {
@@ -58,15 +65,13 @@ const insertBatch = asyncHandler(async (req, res) => {
 // @desc    Update Batch
 // @route   Put /route/Batch
 const updateBatch = asyncHandler(async (req, res) => {
-  console.log(req.body);
-  const { id, drug_expire, drug_quantity } = req.body;
+  const { id, medicine_id, quantity, date_expire, date_mfg } = req.body;
 
   if (!id) return res.status(400).json({ message: "Batch ID required" });
 
   // check if Batch exists
   const BatchExists = await Batch.findOne({ _id: id });
 
-  console.log(BatchExists);
   if (!BatchExists) {
     return res.status(204).json({ message: `Batch ID ${id} not found` });
   }
@@ -74,7 +79,12 @@ const updateBatch = asyncHandler(async (req, res) => {
   try {
     const batch = await Batch.findByIdAndUpdate(
       { _id: id },
-      { drug_expire, drug_quantity }
+      {
+        $set: { medicine_id },
+        $set: { quantity },
+        $set: { date_expire },
+        $set: { date_mfg },
+      }
     );
 
     Batch.save();
@@ -110,8 +120,6 @@ const deleteBatch = asyncHandler(async (req, res) => {
 // @desc    Get one Batch
 // @route   Get /route/Batch
 const getBatch = asyncHandler(async (req, res) => {
-  console.log(req.params.id);
-
   const id = req.params.id;
   if (!id) return res.status(400).json({ message: "Batch ID required" });
 

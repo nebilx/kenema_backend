@@ -18,9 +18,9 @@ const getAllBranch = asyncHandler(async (req, res) => {
 // @desc    Register new Branch
 // @route   POST /route/branch
 const insertBranch = asyncHandler(async (req, res) => {
-  const { name, pno, address, status } = req.body;
+  const { name, pno, address, longitude, latitude, status } = req.body;
 
-  if (!name || !pno || !address || !status) {
+  if (!name || !pno || !address || !longitude || !latitude || !status) {
     return res.status(400).json({ message: "Please add all fields" });
   }
 
@@ -32,8 +32,19 @@ const insertBranch = asyncHandler(async (req, res) => {
   }
 
   try {
-    const result = await Branch.create({ name, pno, address, status });
-    return res.status(201).json({ success: `New Branch created!` + result });
+    const branch = new Branch({
+      name,
+      pno,
+      address,
+      location: {
+        longitude,
+        latitude,
+      },
+      status,
+    });
+
+    await branch.save();
+    return res.status(201).json({ success: `New Branch created!` + branch });
   } catch (err) {
     return res.status(500).send(err);
   }
@@ -42,33 +53,37 @@ const insertBranch = asyncHandler(async (req, res) => {
 // @desc    Update Branch
 // @route   Put /route/branch
 const updateBranch = asyncHandler(async (req, res) => {
-  console.log(req.body);
-  const { id, name, pno, address, status } = req.body;
+  const { name, pno, address, longitude, latitude, status } = req.body;
 
   if (!id) return res.status(400).json({ message: "Branch ID required" });
 
   // check if Branch exists
   const BranchExists = await Branch.findOne({ _id: id });
 
-  console.log(BranchExists);
   if (!BranchExists) {
     return res.status(204).json({ message: `Branch ID ${id} not found` });
   }
 
   try {
-    const result = await Branch.findByIdAndUpdate(
+    const branch = await Branch.findByIdAndUpdate(
       { _id: id },
       {
         $set: { name },
         $set: { pno },
         $set: { address },
+        $set: {
+          location: {
+            longitude,
+            latitude,
+          },
+        },
         $set: { status },
       }
     );
 
-    result.save();
+    await branch.save();
 
-    return res.status(201).json({ success: `Branch Updated` + result });
+    return res.status(201).json({ success: `Branch Updated` + branch });
   } catch (err) {
     return res.status(500).send(err);
   }
@@ -89,8 +104,8 @@ const deleteBranch = asyncHandler(async (req, res) => {
   }
 
   try {
-    const result = await Branch.findByIdAndDelete({ _id: id });
-    return res.status(201).json({ success: `Branch Deleted!` + result });
+    const branch = await Branch.findByIdAndDelete({ _id: id });
+    return res.status(201).json({ success: `Branch Deleted!` + branch });
   } catch (err) {
     return res.status(500).send(err);
   }
@@ -99,15 +114,13 @@ const deleteBranch = asyncHandler(async (req, res) => {
 // @desc    Get one Branch
 // @route   Get /route/branch
 const getBranch = asyncHandler(async (req, res) => {
-  console.log(req.params.id);
-
   const id = req.params.id;
   if (!id) return res.status(400).json({ message: "Branch ID required" });
 
   const branch = await Branch.findOne({ _id: id }).exec();
 
   if (!branch) {
-    return res.status(204).json({ message: `User ID ${id} not found` });
+    return res.status(204).json({ message: `Branch ID ${id} not found` });
   }
   try {
     return res.status(200).json(branch);
