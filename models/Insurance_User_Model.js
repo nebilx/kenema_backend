@@ -103,4 +103,4 @@ const InsuranceUserSchema = new Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Insurance_User", Pharmacy_UserSchema);
+module.exports = mongoose.model("Insurance_User", InsuranceUserSchema);

@@ -1,12 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const {
-  getAllPharmacyUser,
-  insertPharmacyUser,
-  updatePharmacyUser,
-  deletePharmacyUser,
-  getPharmacyUser,
-} = require("../controllers/Pharmacy_User_Account_Controller");
+const { login, logout, refresh } = require("../controllers/Auth_Controller");
 
 router.post("/login", login);
 router.get("/refresh", refresh);

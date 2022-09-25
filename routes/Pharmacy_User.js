@@ -18,3 +18,5 @@ router
   .delete(deletePharmacyUser);
 
 router.route("/:id").get(getPharmacyUser);
+
+module.exports = router;

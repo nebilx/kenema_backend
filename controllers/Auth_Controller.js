@@ -1,3 +1,9 @@
+const Pharmacy = require("../models/Pharmacy_User_Model");
+const asyncHandler = require("express-async-handler");
+const bcrypt = require("bcryptjs");
+const JWT = require("jsonwebtoken");
+let refreshTokens = [];
+
 // @desc    Authenticate a user
 // @route   POST /api/users/login
 // @access  Public
@@ -11,12 +17,12 @@ const login = asyncHandler(async (req, res) => {
       .json({ message: "Username and password are required." });
 
   // Check for user email
-  const user = await User.findOne({ uname });
+  const pharmacy = await Pharmacy.findOne({ uname });
 
-  if (!user) return res.sendStatus(401).json({ message: "user not found." }); //Unauthorized
+  if (!pharmacy) return res.sendStatus(401).json({ message: "user not found." }); //Unauthorized
 
   //evaluate password
-  const ismatch = await bcrypt.compare(pwd, user.pwd);
+  const ismatch = await bcrypt.compare(pwd, pharmacy.pwd);
 
   if (!ismatch) {
     return res
@@ -27,8 +33,8 @@ const login = asyncHandler(async (req, res) => {
   const accessToken = JWT.sign(
     {
       UserInfo: {
-        username: user.name,
-        // "roles": pharmacist.roles
+        username: pharmacy.name,
+       "role": pharmacy.role
       },
     },
     process.env.ACCESS_TOKEN_SECRET,
@@ -37,7 +43,7 @@ const login = asyncHandler(async (req, res) => {
 
   // Refresh token
   const refreshToken = await JWT.sign(
-    { name: user.name },
+    { name: pharmacy.name },
     process.env.REFRESH_TOKEN_SECRET,
     {
       expiresIn: "60m",
@@ -56,6 +62,7 @@ const login = asyncHandler(async (req, res) => {
   });
 
   return res.json({
+   "role" :pharmacy.role,
     accessToken,
     refreshToken,
   });
@@ -68,9 +75,10 @@ const refresh = asyncHandler(async (req, res) => {
   const cookies = req.cookies;
   if (!cookies?.jwt) return res.sendStatus(401);
   const refreshToken = cookies.jwt;
+
   res.clearCookie("jwt", { httpOnly: true, sameSite: "None", secure: true });
 
-  const foundUser = await User.findOne({ refreshToken }).exec();
+  const foundUser = await Pharmacy.findOne({ refreshToken }).exec();
 
   // Detected refresh token reuse!
   if (!foundUser) {
@@ -80,8 +88,8 @@ const refresh = asyncHandler(async (req, res) => {
       async (err, decoded) => {
         if (err) return res.status(403).json({ message: `forbidden` }); //Forbidden
         // Delete refresh tokens of hacked user
-        const hackedUser = await User.findOne({
-          username: decoded.username,
+        const hackedUser = await Pharmacy.findOne({
+          uname: decoded.uname,
         }).exec();
         hackedUser.refreshToken = [];
         const result = await hackedUser.save();
@@ -104,15 +112,15 @@ const refresh = asyncHandler(async (req, res) => {
         foundUser.refreshToken = [...newRefreshTokenArray];
         const result = await foundUser.save();
       }
-      if (err || foundUser.username !== decoded.username)
+      if (err || foundUser.uname !== decoded.uname)
         return res.sendStatus(403);
 
       // Refresh token was still valid
-      const roles = Object.values(foundUser.roles);
-      const accessToken = jwt.sign(
+      const roles = Object.values(foundUser.role);
+      const accessToken = JWT.sign(
         {
           UserInfo: {
-            username: decoded.username,
+            username: decoded.uname,
             roles: roles,
           },
         },
@@ -121,7 +129,7 @@ const refresh = asyncHandler(async (req, res) => {
       );
 
       const newRefreshToken = jwt.sign(
-        { username: foundUser.username },
+        { username: foundUser.uname },
         process.env.REFRESH_TOKEN_SECRET,
         { expiresIn: "15s" }
       );
@@ -149,11 +157,10 @@ const logout = (req, res) => {
   const refreshToken = req.header("x-auth-token");
 
   refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
-  return res.sendStatus(204);
+  return res.sendStatus(204).json({ message: "log out success" });
 };
 
 module.exports = {
-  signup,
   login,
   refresh,
   logout,

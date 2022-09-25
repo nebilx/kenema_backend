@@ -3,17 +3,17 @@ const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcryptjs");
 const cloudinary = require("../utils/cloudinary");
 const JWT = require("jsonwebtoken");
-let refreshTokens = [];
+
 
 // @desc    get all Pharmacy User
 // @route   Get /route/PharmacyUser
 const getAllPharmacyUser = asyncHandler(async (req, res) => {
   // Check if Medicine exists
-  const medicine = await Medicine.find();
-  if (!medicine) return res.status(204).json({ message: "No Medicine found" });
+  const pharmacy = await Pharmacy.find();
+  if (!pharmacy) return res.status(204).json({ message: "No pharmacy user found" });
 
   try {
-    return res.status(200).json(medicine);
+    return res.status(200).json(pharmacy);
   } catch (err) {
     return res.status(500).send(err);
   }
@@ -23,6 +23,9 @@ const getAllPharmacyUser = asyncHandler(async (req, res) => {
 // @route   POST /route/PharmacyUser
 const insertPharmacyUser = asyncHandler(async (req, res) => {
   const { name, uname, pwd, role, branch, status } = req.body;
+
+  console.log(req.body);
+  console.log(req.path);
 
   if (!name || !uname || !pwd || !role || !branch || !status) {
     return res.status(400).json({ message: "Please add all fields" });
@@ -39,6 +42,11 @@ const insertPharmacyUser = asyncHandler(async (req, res) => {
     // Hash password before saving to database
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(pwd, salt);
+
+    if (!req.file) {
+      console.log("no image ");
+      return res.status(400).json({ message: "Please need image" });
+    }
 
     // Upload image to cloudinary
     const result = await cloudinary.uploader.upload(req.file.path, {
@@ -74,7 +82,7 @@ const insertPharmacyUser = asyncHandler(async (req, res) => {
     );
 
     return res.status(201).json({
-      success: `New User created!` + user + `access token` + accessToken,
+      success: `New User created!` + pharmacy + `access token` + accessToken,
     });
   } catch (err) {
     console.log(err);

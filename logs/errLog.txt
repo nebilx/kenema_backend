@@ -128,3 +128,17 @@
 20220920	18:16:41	1b50157f-6bba-4026-a603-3075480cc249	Error: Illegal arguments: string, undefined
 20220920	18:17:17	772f9598-7a68-43d6-9bb8-015d59847fa9	Error: Cannot set headers after they are sent to the client
 20220920	18:19:15	32dec0d9-c11a-4f27-97d4-24cec7babfe5	Error: Cannot set headers after they are sent to the client
+20220925	17:37:13	4a5eb49a-0af8-4041-bb23-0b8ce35ac459	ReferenceError: re is not defined
+20220925	17:46:50	7aa8d94a-55e7-4164-ad5c-e64e39941f52	ReferenceError: Medicine is not defined
+20220925	18:00:34	e8db2bbc-a232-48a0-8016-0c375d6a3210	Error: Cannot set headers after they are sent to the client
+20220925	18:14:42	6a1ef150-07e0-4b4e-b9bf-4b34ec48df17	TypeError: req.role.map is not a function
+20220925	18:15:30	4d89076c-ba48-45b3-9d31-9f4a4dcd746f	TypeError: req.role.map is not a function
+20220925	18:16:27	e884fd2b-fd8b-4a42-b3d5-1a6876cfaae6	TypeError: req.role.map is not a function
+20220925	18:36:58	d7ad8bbb-f4f2-4f26-bb4a-de180d4806df	TypeError: req.role.map is not a function
+20220925	23:40:15	46a7c4b9-218b-4c7d-b254-8ad09449ce38	CastError: Cast to ObjectId failed for value "{ _id: undefined }" (type Object) at path "_id" for model "Batch"
+20220925	23:42:21	05f7440b-5ab8-4bdf-8c0e-03de98bb7227	ReferenceError: atchExists is not defined
+20220925	23:42:42	eb6b5274-cc4c-4978-890f-e17ba1c809ef	CastError: Cast to ObjectId failed for value "{ _id: undefined }" (type Object) at path "_id" for model "Batch"
+20220925	23:43:32	f8b7bd75-7fa6-4f69-83dd-da58f7744289	CastError: Cast to ObjectId failed for value "{ _id: undefined }" (type Object) at path "_id" for model "Batch"
+20220925	23:44:49	34aeef97-9178-4ea9-8262-3c24927754cc	CastError: Cast to ObjectId failed for value "{ _id: undefined }" (type Object) at path "_id" for model "Batch"
+20220925	23:55:11	50966bfb-229e-43f6-9c57-80bf05262c0a	TypeError: Batch.find(...).toArray is not a function
+20220926	00:05:50	77f8a9a0-8067-4d52-89e9-52001ed2bcd0	CastError: Cast to ObjectId failed for value "{ _id: undefined }" (type Object) at path "_id" for model "Batch"

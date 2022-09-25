@@ -12,7 +12,9 @@ const { logger } = require("./middleware/logEvents");
 const errorHandler = require("./middleware/errorHandler");
 const cookieParser = require("cookie-parser");
 const credentials = require("./middleware/credentials");
-const verify_token = require("./middleware/authenticateToken");
+const verify_token = require("./middleware/Verify_JWT");
+const verify_roles = require("./middleware/Verify_Roles");
+const role_list = require("./config/roles_list");
 
 const auth = require("./routes/Auth");
 const batch = require("./routes/Batch");
@@ -57,8 +59,16 @@ app.use("/medicine", medicine);
 app.use("/pharmacy_user", pharmacy_user);
 app.use("/prescription", prescription);
 
-app.get("/test", verify_token, (req, res) => {
-  res.json("test data reached");
+app.get("/test", verify_token, verify_roles(role_list.Pharmacist), (req, res) => {
+  res.json("test pharmacist");
+});
+
+app.get("/test1", verify_token, verify_roles(role_list.Admin), (req, res) => {
+  res.json("test1 hellow admin");
+});
+
+app.get("/test2", verify_token, verify_roles(role_list.Admin), (req, res) => {
+  res.json("test2 hello insurance user");
 });
 
 app.all("*", (req, res) => {
