@@ -142,3 +142,7 @@
 20220925	23:44:49	34aeef97-9178-4ea9-8262-3c24927754cc	CastError: Cast to ObjectId failed for value "{ _id: undefined }" (type Object) at path "_id" for model "Batch"
 20220925	23:55:11	50966bfb-229e-43f6-9c57-80bf05262c0a	TypeError: Batch.find(...).toArray is not a function
 20220926	00:05:50	77f8a9a0-8067-4d52-89e9-52001ed2bcd0	CastError: Cast to ObjectId failed for value "{ _id: undefined }" (type Object) at path "_id" for model "Batch"
+20220926	08:29:32	a116ad72-122b-41e8-baf4-5de26ad90430	CastError: Cast to ObjectId failed for value "{ _id: undefined }" (type Object) at path "_id" for model "Batch"
+20220926	09:06:31	db5ac125-b34b-4b08-b6d3-077f8522046d	ReferenceError: push is not defined
+20220926	09:06:57	e3113144-3f02-46da-b344-2c8d164d0bdc	ReferenceError: i is not defined
+20220926	13:04:57	ae9574f1-ea04-4c2a-985f-94cff87acc38	TypeError: req.role.map is not a function

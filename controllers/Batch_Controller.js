@@ -21,9 +21,15 @@ const insertBatch = asyncHandler(async (req, res) => {
   const { batch_date, medicine_id, quantity, date_expire, date_mfg, branch } =
     req.body;
 
-   // console.log(req.body.batch_m);
-    batch_list = req.body.batch_m;
-    console.log(batch_list);
+  // console.log(req.body.batch_m);
+  batch_list = req.body.batch_m;
+  let a = [];
+
+  a.push(batch_list);
+
+  console.log(a);
+
+  //console.log(batch_list);
   // if (
   //   !batch_date ||
   //   !medicine_id ||
@@ -36,22 +42,26 @@ const insertBatch = asyncHandler(async (req, res) => {
   // }
 
   // Check if Batch exists
-  const BatchExists = await Batch.find({"medicine_id":batch_list.medicine_id, "date_expire": batch_list.date_expire, "date_mfg" : batch_list.date_mfg});
+  const BatchExists = await Batch.findOne({
+    medicine_id: batch_list.medicine_id,
+    date_expire: batch_list.date_expire,
+    date_mfg: batch_list.date_mfg,
+  });
 
-  if(BatchExists) {
-    console.log("it reach here ")
-console.log(BatchExists._id);
-  console.log(BatchExists);
+  if (BatchExists) {
+    console.log("it reach here ");
+    console.log(BatchExists._id);
+    console.log(BatchExists);
     await Batch.findByIdAndUpdate(
-      { "_id" :BatchExists._id},
-    {
-      $set:{
-quantity : "tryed to update",
+      { _id: BatchExists._id },
+      {
+        $set: {
+          quantity: "trying to update",
+        },
       }
-    }
-)
+    );
 
-console.log("not sure i update it ");
+    console.log("not sure i update it ");
   }
 
   // if (BatchExists) {
@@ -59,16 +69,16 @@ console.log("not sure i update it ");
   // }
 
   try {
-  //   const batch = new Batch({
-  //     batch_date,
-  //     medicine_id,
-  //     quantity,
-  //     date_expire,
-  //     date_mfg,
-  //     branch,
-  //   });
+    //   const batch = new Batch({
+    //     batch_date,
+    //     medicine_id,
+    //     quantity,
+    //     date_expire,
+    //     date_mfg,
+    //     branch,
+    //   });
 
-  //   await batch.save();
+    //   await batch.save();
 
     const batch = await Batch.insertMany(req.body.batch_m);
 
